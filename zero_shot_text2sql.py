@@ -1,7 +1,6 @@
 from database_catalog import DATABASE_CATALOG
 from llm import LLM
 from text2sql import Text2SQL
-from typing import List
 
 
 class ZeroShotText2SQL(Text2SQL):
