@@ -12,6 +12,7 @@ from tqdm import tqdm
 validation_dataset_limit_rows = 100
 train_dataset_limit_rows = 100
 output_folder = "results"
+llm_name = "mistralai/Ministral-8B-Instruct-2410"
 #########
 
 def write_to_file(text, file_path):
@@ -32,7 +33,7 @@ def normalize_sql_query(query):
 
 
 def main():
-    llm = LLM()
+    llm = LLM(llm_name)
 
     validation_dataset = Dataset(llm, split="validation", limit=validation_dataset_limit_rows)
     train_dataset = Dataset(llm, split="train", limit=train_dataset_limit_rows)
