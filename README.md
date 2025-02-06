@@ -8,3 +8,5 @@ To access Hugging Face models, create a `.env` file in the root folder of this p
 // .env
 HF_TOKEN={your access token}
 ```
+
+## Usage
