@@ -6,6 +6,7 @@ from prompt_organization import DAILOrganization, FullInformationOrganization, S
 from zero_shot_text2sql import ZeroShotText2SQL
 import re
 import os
+from tqdm import tqdm
 
 ######### TODO make as CLI arguments
 validation_dataset_limit_rows = 100
@@ -69,13 +70,13 @@ def main():
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
                 
-    for sample in validation_dataset:
+    for sample in tqdm(validation_dataset):
         for name, generator in sql_generators.items():
             gold_file_path = os.path.join(output_folder, f"gold_{name}.txt")
             pred_file_path =  os.path.join(output_folder, f"pred_{name}.txt")
 
             answer = generator.generate_sql(sample)
-            
+
             write_to_file(f"{normalize_sql_query(sample['query'])}\t{sample['db_id']}", gold_file_path)
             write_to_file(normalize_sql_query(answer), pred_file_path)
 
