@@ -31,7 +31,11 @@ class LLM:
         )
         self.llm.eval()
 
-    def generate(self, prompt, max_new_tokens=500):
+    def _parse_answer(answer:str) ->str:
+        processed_answer = answer.strip()
+        return processed_answer
+
+    def answer(self, prompt: str, max_new_tokens=500) -> str:
         generation_config = GenerationConfig(
             max_new_tokens=max_new_tokens,
             do_sample=False,
@@ -53,4 +57,4 @@ class LLM:
             )
 
         answer_tokens = outputs[0, input_ids.shape[1]:-1]
-        return self.tokenizer.decode(answer_tokens).strip()
+        return self._parse_answer(self.tokenizer.decode(answer_tokens))
