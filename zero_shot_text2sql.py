@@ -6,7 +6,7 @@ from typing import List
 
 class ZeroShotText2SQL(Text2SQL):
   def __init__(self, llm: LLM):
-    self.llm = llm
+    self.__llm = llm
 
     self.prompt_template = """
       You are a very competent SQL agent.
@@ -19,9 +19,9 @@ class ZeroShotText2SQL(Text2SQL):
       ### {question} SELECT
     """.strip()
   
-  def generate_sql(self, question: str, question_tokens: List[str], database_id: str) -> str:
+  def generate_sql(self, sample) -> str:
     prompt = self.prompt_template.format(
-      schema=DATABASE_CATALOG.get_database_schema_by_id(database_id),
-      question=question)
+      schema=DATABASE_CATALOG.get_database_schema_by_id(sample['db_id']),
+      question=sample['question'])
     
-    return self.llm.answer(prompt)
+    return self.__llm.answer(prompt)
