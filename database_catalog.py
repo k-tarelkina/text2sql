@@ -1,8 +1,8 @@
 import json
-
+import os
 
 class DatabaseCatalog:
-    def __init__(self, file_path = '/data/tables.json'):
+    def __init__(self, file_path=os.path.join('.', 'data', 'tables.json')):
         with open(file_path, 'r') as file:
             self.tables = json.load(file)
 
