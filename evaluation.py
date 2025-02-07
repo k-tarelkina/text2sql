@@ -1,4 +1,5 @@
-# This file is a copy from https://github.com/taoyds/spider/blob/master/evaluation.py
+# This file is a copy from https://github.com/taoyds/spider/blob/master/evaluation.py with 
+# added eval_time() method
 
 ################################
 # val: number(float)/string(str)/sql(dict)
@@ -27,7 +28,7 @@ import json
 import sqlite3
 import traceback
 import argparse
-
+import time
 from process_sql import tokenize, get_schema, get_tables_with_alias, Schema, get_sql
 
 # Flag to disable value evaluation
@@ -56,6 +57,20 @@ HARDNESS = {
     "component1": ('where', 'group', 'order', 'limit', 'join', 'or', 'like'),
     "component2": ('except', 'union', 'intersect')
 }
+
+class IncrementalMean:
+    def __init__(self):
+        self.total = 0.0  
+        self.count = 0
+    
+    def update(self, value):
+        self.total += value  
+        self.count += 1
+    
+    def mean(self):
+        if self.count == 0:
+            return 0  # Handle division by zero  
+        return self.total / self.count
 
 
 def condition_has_or(conds):
@@ -457,6 +472,11 @@ def print_scores(scores, etype):
         this_scores = [scores[level]['exec'] for level in levels]
         print("{:20} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f}".format("execution", *this_scores))
 
+    if etype in ["all", "time"]:
+        print('\n=====================   TIME ACCELERATION     =====================')
+        this_scores = [scores[level]['time'].mean() for level in levels]
+        print("{:20} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f}".format("time acceleration", *this_scores))
+
     if etype in ["all", "match"]:
         print('\n====================== EXACT MATCHING ACCURACY =====================')
         exact_scores = [scores[level]['exact'] for level in levels]
@@ -496,6 +516,8 @@ def evaluate(gold, predict, db_dir, etype, kmaps):
     for level in levels:
         scores[level] = {'count': 0, 'partial': {}, 'exact': 0.}
         scores[level]['exec'] = 0
+        scores[level]['time'] = IncrementalMean()
+
         for type_ in partial_types:
             scores[level]['partial'][type_] = {'acc': 0., 'rec': 0., 'f1': 0.,'acc_count':0,'rec_count':0}
 
@@ -544,6 +566,12 @@ def evaluate(gold, predict, db_dir, etype, kmaps):
         p_valid_col_units = build_valid_col_units(p_sql['from']['table_units'], schema)
         p_sql = rebuild_sql_val(p_sql)
         p_sql = rebuild_sql_col(p_valid_col_units, p_sql, kmap)
+
+        if etype in ["all", "time"]:
+            time_score = eval_time(db, p_str, g_str)
+            if time_score:
+                scores[hardness]['time'].update(time_score)
+                scores['all']['time'].update(time_score)
 
         if etype in ["all", "exec"]:
             exec_score = eval_exec_match(db, p_str, g_str, p_sql, g_sql)
@@ -640,6 +668,52 @@ def eval_exec_match(db, p_str, g_str, pred, gold):
     q_val_units = [unit[1] for unit in gold['select'][1]]
     return res_map(p_res, p_val_units) == res_map(q_res, q_val_units)
 
+def eval_time(db, p_str, g_str, n_trials=5):
+    """
+    return fraction of time needed to execute predited query with respect to gold query,
+    averaged over n_trials
+    """
+    conn = sqlite3.connect(db)
+    cursor = conn.cursor()
+    
+    try:
+        # Warm-up run to avoid timing the first run's overhead  
+        for _ in range(n_trials):
+            start_time = time.time()
+            cursor.execute(g_str)
+            cursor.fetchall() 
+            elapsed_gold = time.time() - start_time
+
+        # Measure the average execution time for the gold query  
+        gold_times = []
+        for _ in range(n_trials):
+            start_time = time.time()
+            cursor.execute(g_str)
+            cursor.fetchall()
+            gold_times.append(time.time() - start_time)
+        
+        avg_gold_time = sum(gold_times) / len(gold_times)
+
+        # Measure the average execution time for the predicted query  
+        pred_times = []
+        for _ in range(n_trials):
+            start_time = time.time()
+            cursor.execute(p_str)
+            cursor.fetchall()
+            pred_times.append(time.time() - start_time)
+
+        avg_pred_time = sum(pred_times) / len(pred_times)
+
+    except Exception as e:
+        print(f"Error executing query: {e}")
+        return False  
+    finally:
+        cursor.close()
+        conn.close()
+
+    if avg_gold_time == 0:
+        return float('inf')   # Avoid devision by 0
+    return avg_pred_time / avg_gold_time
 
 # Rebuild SQL functions for value evaluation
 def rebuild_cond_unit_val(cond_unit):
@@ -863,7 +937,7 @@ if __name__ == "__main__":
     table = args.table
     etype = args.etype
 
-    assert etype in ["all", "exec", "match"], "Unknown evaluation method"
+    assert etype in ["all", "exec", "match", "time"], "Unknown evaluation method"
 
     kmaps = build_foreign_key_map_from_json(table)
 
