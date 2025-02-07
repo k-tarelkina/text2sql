@@ -77,7 +77,7 @@ class ExampleSelection:
     def __init__(self, llm: LLM):
         self.llm = llm
 
-    def __compute_similarity(example_a, example_b, field):
+    def compute_similarity(example_a, example_b, field):
         return cosine_similarity([example_a[field]], [example_b[field]])[0][0]
 
     @abstractmethod
