@@ -31,6 +31,10 @@ import argparse
 import time
 from process_sql import tokenize, get_schema, get_tables_with_alias, Schema, get_sql
 
+import nltk
+
+nltk.download("punkt_tab")
+
 # Flag to disable value evaluation
 DISABLE_VALUE = True
 # Flag to disable distinct in select evaluation
@@ -612,7 +616,7 @@ def print_scores(scores, etype):
 
     if etype in ["all", "time"]:
         print("\n=====================   TIME ACCELERATION     =====================")
-        this_scores = [scores[level]["time"].mean() for level in levels]
+        this_scores = [scores[level]["time"].mean() * 100 for level in levels]
         print(
             "{:20} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f}".format(
                 "time acceleration", *this_scores

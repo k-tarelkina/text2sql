@@ -64,7 +64,7 @@ def main():
         "DAIL": DAILOrganization(),
     }
 
-    n_examples = [2, 4, 8]
+    n_examples = [1, 2, 4]
 
     sql_generators = {"Zero-shot": ZeroShotText2SQL(llm)}
 
