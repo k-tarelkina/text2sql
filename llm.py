@@ -31,7 +31,7 @@ class LLM:
         )
         self.__llm.eval()
 
-    def __parse_answer(answer:str) ->str:
+    def __parse_answer(self,answer:str) ->str:
         processed_answer = answer.strip()
         return processed_answer
 
