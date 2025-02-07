@@ -1,4 +1,5 @@
-from typing import Literal
+from collections.abc import Sequence
+from typing import Any, Dict, Literal
 from datasets import load_dataset, concatenate_datasets
 from tqdm import tqdm
 from llm import LLM
@@ -7,7 +8,7 @@ from nltk import pos_tag
 
 nltk.download('averaged_perceptron_tagger_eng')
 
-class Dataset():
+class Dataset(Sequence):
     def __init__(self, llm:LLM, split: Literal["train", "validation"], limit=None) -> None:
         self.ds = load_dataset("xlangai/spider")[split]
 
@@ -30,8 +31,17 @@ class Dataset():
         masked_question = ' '.join(masked_question_toks)
         return masked_question
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.ds)
 
-    def __getitem__(self, index: int) -> dict:
+    def __getitem__(self, index: int) -> Dict[str, Any]:
         return self.ds[index]
+
+    def __contains__(self, item: Dict[str, Any]) -> bool:
+        return item in self.ds
+
+    def __iter__(self):
+        return iter(self.ds)
+    
+    def __reversed__(self):
+        return reversed(self.ds)
