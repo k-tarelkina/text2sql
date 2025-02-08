@@ -3,6 +3,7 @@ prediction:
     name: "mistralai/Ministral-8B-Instruct-2410"
     max_new_tokens: 500
     do_sample: False
-  validation_dataset_limit_rows: 1
-  train_dataset_limit_rows: 1
+  validation_dataset_limit_rows: 100
+  train_dataset_limit_rows: 100
   output_folder: "results"
+  parallelisation: True

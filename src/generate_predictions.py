@@ -1,5 +1,6 @@
 import re
 import os
+import concurrent.futures
 from tqdm import tqdm
 from src.datasets.dataset import Dataset
 from src.strategy.example_selection import (
@@ -39,6 +40,7 @@ def run_prediction(params):
     output_folder = params.get("output_folder", "results")
     validation_dataset_limit_rows = params.get("validation_dataset_limit_rows")
     train_dataset_limit_rows = params.get("train_dataset_limit_rows")
+    parallelisation = params.get("parallelisation", False)
 
     logger = Logger()
 
@@ -91,19 +93,42 @@ def run_prediction(params):
         os.makedirs(output_folder)
 
     # run generations
-    for sample in tqdm(validation_dataset):
-        for name, generator in sql_generators.items():
-            logger.write(f"--------- Start running {name} ---------")
+    def process_sample_and_generator(sample, name, generator):
+        logger.write(f"--------- Start running {name} ---------")
 
-            gold_file_path = os.path.join(output_folder, f"gold_{name}.txt")
-            pred_file_path = os.path.join(output_folder, f"pred_{name}.txt")
+        gold_file_path = os.path.join(output_folder, f"gold_{name}.txt")
+        pred_file_path = os.path.join(output_folder, f"pred_{name}.txt")
 
-            answer = generator.generate_sql(sample)
+        answer = generator.generate_sql(sample)
 
-            write_to_file(
-                f"{normalize_sql_query(sample['query'])}\t{sample['db_id']}",
-                gold_file_path,
-            )
-            write_to_file(normalize_sql_query(answer), pred_file_path)
+        write_to_file(
+            f"{normalize_sql_query(sample['query'])}\t{sample['db_id']}",
+            gold_file_path,
+        )
+        write_to_file(normalize_sql_query(answer), pred_file_path)
 
-            logger.write(f"--------- End running {name} ---------")
+        logger.write(f"--------- End running {name} ---------")
+
+    if parallelisation:
+        # run in parallel
+        logger.write("Running in parallel mode")
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            futures = []
+            for sample in validation_dataset:
+                for name, generator in sql_generators.items():
+                    futures.append(
+                        executor.submit(
+                            process_sample_and_generator, sample, name, generator
+                        )
+                    )
+
+            for future in tqdm(
+                concurrent.futures.as_completed(futures), total=len(futures)
+            ):
+                future.result()
+    else:
+        # run in sequance
+        logger.write("Running in sequential mode")
+        for sample in tqdm(validation_dataset):
+            for name, generator in sql_generators.items():
+                process_sample_and_generator(sample, name, generator)

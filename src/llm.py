@@ -22,7 +22,7 @@ class LLM:
         hf_token = os.getenv("HF_TOKEN")
 
         self.__tokenizer = AutoTokenizer.from_pretrained(
-            self.llm_name, padding_side="left", use_auth_token=hf_token
+            self.llm_name, padding_side="left", token=hf_token
         )
         self.__tokenizer.use_default_system_prompt = False
         self.__tokenizer.pad_token_id = self.__tokenizer.eos_token_id
@@ -40,7 +40,7 @@ class LLM:
             device_map=device_map,
             torch_dtype=torch.bfloat16,
             token=hf_token,
-        )
+        ).to(self.device)
         self.__llm.eval()
 
         if self.device == "cuda":
