@@ -3,6 +3,7 @@ from src.llm import LLM
 from src.strategy.prompt_organization import PromptOrganization
 from src.strategy.text2sql import Text2SQL
 from src.strategy.example_selection import ExampleSelection
+from src.utils.log import Logger
 
 
 class FewShotText2SQL(Text2SQL):
@@ -12,6 +13,7 @@ class FewShotText2SQL(Text2SQL):
         dataset: Dataset,
         example_selection: ExampleSelection,
         prompt_organization: PromptOrganization,
+        logger: Logger,
         n_examples=5,
     ):
 
@@ -20,12 +22,18 @@ class FewShotText2SQL(Text2SQL):
         self.__prompt_organization = prompt_organization
         self.__n_examples = n_examples
         self.__dataset = dataset
+        self.__logger = logger
 
     def generate_sql(self, sample) -> str:
+        self.__logger.write("Start generating prompt")
         examples = self.__example_selection.select_examples(
             sample, self.__dataset, self.__n_examples
         )
+        self.__logger.write("End generating prompt")
 
+        self.__logger.write("Start asking LLM")
         prompt = self.__prompt_organization.get_prompt(sample, examples)
+        result = self.__llm.answer(prompt)
+        self.__logger.write("End asking LLM")
 
-        return self.__llm.answer(prompt)
+        return result

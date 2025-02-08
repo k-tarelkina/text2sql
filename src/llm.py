@@ -29,10 +29,10 @@ class LLM:
 
         quantization_config = (
             BitsAndBytesConfig(load_in_8bit=False, load_in_4bit=True)
-            if self.device is "cuda"
+            if self.device == "cuda"
             else None
         )
-        device_map = {"": 0} if self.device is "cuda" else "cpu"
+        device_map = {"": 0} if self.device == "cuda" else "cpu"
 
         self.__llm = AutoModelForCausalLM.from_pretrained(
             self.llm_name,
