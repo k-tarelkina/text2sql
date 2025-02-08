@@ -12,7 +12,7 @@ HF_TOKEN={your access token}
 Install necessary dependencies:
 
 ```bash
-pip install transformers bitsandbytes accelerate datasets outlines scikit-learn python-dotenv
+pip install transformers bitsandbytes accelerate datasets outlines scikit-learn python-dotenv nltk
 ```
 
 ## Evaluation
@@ -22,7 +22,7 @@ To run the evaluation script, you first need to generate files with predictions.
 To do that, run the following command:
 
 ```bash
-python generate_predictions.py
+python main.py predict
 ```
 
 The files will be generated in the `results` folder.

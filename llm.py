@@ -12,23 +12,34 @@ load_dotenv()
 
 
 class LLM:
-    def __init__(self, llm_name="mistralai/Ministral-8B-Instruct-2410"):
+    def __init__(self, params):
+        # params
+        self.llm_name = params.get("name", "mistralai/Ministral-8B-Instruct-2410")
+        self.max_new_tokens = params.get("max_new_tokens", 500)
+        self.do_sample = params.get("do_sample", False)
+
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
         hf_token = os.getenv("HF_TOKEN")
 
         self.__tokenizer = AutoTokenizer.from_pretrained(
-            llm_name, padding_side="left", token=hf_token
+            self.llm_name, padding_side="left", token=hf_token
         )
         self.__tokenizer.use_default_system_prompt = False
         self.__tokenizer.pad_token_id = self.__tokenizer.eos_token_id
 
-        quantization_config = BitsAndBytesConfig(load_in_8bit=False, load_in_4bit=True)
+        quantization_config = (
+            BitsAndBytesConfig(load_in_8bit=False, load_in_4bit=True)
+            if self.device is "cuda"
+            else None
+        )
+        device_map = {"": 0} if self.device is "cuda" else "cpu"
 
         self.__llm = AutoModelForCausalLM.from_pretrained(
-            llm_name,
+            self.llm_name,
             quantization_config=quantization_config,
-            device_map={"": 0},
+            device_map=device_map,
             torch_dtype=torch.bfloat16,
-            token=os.getenv("HF_TOKEN"),
+            token=hf_token,
         )
         self.__llm.eval()
 
@@ -36,19 +47,18 @@ class LLM:
         processed_answer = answer.strip()
         return processed_answer
 
-    def answer(self, prompt: str, max_new_tokens=500) -> str:
+    def answer(self, prompt: str) -> str:
         generation_config = GenerationConfig(
-            max_new_tokens=max_new_tokens,
-            do_sample=False,
+            max_new_tokens=self.max_new_tokens,
+            do_sample=self.do_sample,
             eos_token_id=self.__tokenizer.eos_token_id,
             pad_token_id=self.__tokenizer.pad_token_id,
         )
 
         turns = [{"role": "user", "content": prompt}]
 
-        device = "cuda" if torch.cuda.is_available() else "cpu"
         input_ids = self.__tokenizer.apply_chat_template(turns, return_tensors="pt").to(
-            device
+            self.device
         )
 
         with torch.no_grad():
@@ -58,8 +68,7 @@ class LLM:
         return self.__parse_answer(self.__tokenizer.decode(answer_tokens))
 
     def get_hidden_representation(self, text):
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        encoding = self.__tokenizer.encode(text, return_tensors="pt").to(device)
+        encoding = self.__tokenizer.encode(text, return_tensors="pt").to(self.device)
 
         with torch.no_grad():
             output = self.__llm(encoding, output_hidden_states=True)

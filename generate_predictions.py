@@ -16,18 +16,7 @@ from zero_shot_text2sql import ZeroShotText2SQL
 import re
 import os
 from tqdm import tqdm
-
-######### TODO make as CLI arguments
-validation_dataset_limit_rows = 100
-train_dataset_limit_rows = 100
-output_folder = "results"
-llm_name = "mistralai/Ministral-8B-Instruct-2410"
-#########
-
-
-def write_to_file(text, file_path):
-    with open(file_path, "a") as file:
-        file.write(text + "\n")
+from utils.files import write_to_file
 
 
 def normalize_sql_query(query):
@@ -43,31 +32,38 @@ def normalize_sql_query(query):
     return normalized_query
 
 
-def main():
+def run_prediction(params):
+    # extract params
+    llm_name = params.get("llm")
+    output_folder = params.get("output_folder", "results")
+    validation_dataset_limit_rows = params.get("validation_dataset_limit_rows")
+    train_dataset_limit_rows = params.get("train_dataset_limit_rows")
+
+    # setup model
     llm = LLM(llm_name)
 
+    # setup dataset
     validation_dataset = Dataset(
         llm, split="validation", limit=validation_dataset_limit_rows
     )
     train_dataset = Dataset(llm, split="train", limit=train_dataset_limit_rows)
 
+    # get prompt setups
     example_selections = {
         "Random": RandomSelection(llm),
         "QTS": QuestionSimilaritySelection(llm),
         "MQS": MaskedQuestionSimilaritySelection(llm),
         "QRS": QuerySimilaritySelection(llm),
     }
-
     prompt_organizations = {
         "FI": FullInformationOrganization(),
         "SQL-only": SQLOnlyOrganization(),
         "DAIL": DAILOrganization(),
     }
-
     n_examples = [1, 2, 4]
-
     sql_generators = {"Zero-shot": ZeroShotText2SQL(llm)}
 
+    # run prompts
     for n in n_examples:
         for es_name, es in example_selections.items():
             for po_name, po in prompt_organizations.items():
@@ -79,6 +75,7 @@ def main():
                     n_examples=n,
                 )
 
+    # save prediction results
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
@@ -94,7 +91,3 @@ def main():
                 gold_file_path,
             )
             write_to_file(normalize_sql_query(answer), pred_file_path)
-
-
-if __name__ == "__main__":
-    main()
