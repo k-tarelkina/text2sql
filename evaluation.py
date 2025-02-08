@@ -23,13 +23,12 @@
 ################################
 
 from __future__ import print_function
-import os, sys
+import os
 import json
 import sqlite3
-import traceback
 import argparse
 import time
-from process_sql import tokenize, get_schema, get_tables_with_alias, Schema, get_sql
+from process_sql import get_schema, Schema, get_sql
 
 import nltk
 

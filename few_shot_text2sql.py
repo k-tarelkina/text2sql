@@ -1,4 +1,3 @@
-from database_catalog import DATABASE_CATALOG
 from dataset import Dataset
 from example_selection import ExampleSelection
 from llm import LLM
