@@ -2,7 +2,7 @@ from collections.abc import Sequence
 from typing import Any, Dict, Literal
 from datasets import load_dataset
 from tqdm import tqdm
-from llm import LLM
+from src.llm import LLM
 import nltk
 from nltk import pos_tag
 

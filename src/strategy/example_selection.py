@@ -1,10 +1,10 @@
 from abc import abstractmethod
-from sklearn.metrics.pairwise import cosine_similarity
-from database_catalog import DATABASE_CATALOG
-from llm import LLM
 import numpy as np
 import torch
 import random
+from sklearn.metrics.pairwise import cosine_similarity
+from src.datasets.database_catalog import DATABASE_CATALOG
+from src.llm import LLM
 
 SQL_KEYWORDS = [
     "SELECT",

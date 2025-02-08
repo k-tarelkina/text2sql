@@ -1,8 +1,8 @@
-from dataset import Dataset
-from example_selection import ExampleSelection
-from llm import LLM
-from prompt_organization import PromptOrganization
-from text2sql import Text2SQL
+from src.datasets.dataset import Dataset
+from src.llm import LLM
+from src.strategy.prompt_organization import PromptOrganization
+from src.strategy.text2sql import Text2SQL
+from src.strategy.example_selection import ExampleSelection
 
 
 class FewShotText2SQL(Text2SQL):

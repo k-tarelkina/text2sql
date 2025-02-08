@@ -1,22 +1,22 @@
-from dataset import Dataset
-from example_selection import (
+import re
+import os
+from tqdm import tqdm
+from src.datasets.dataset import Dataset
+from src.strategy.example_selection import (
     MaskedQuestionSimilaritySelection,
     QuerySimilaritySelection,
     QuestionSimilaritySelection,
     RandomSelection,
 )
-from few_shot_text2sql import FewShotText2SQL
-from llm import LLM
-from prompt_organization import (
+from src.strategy.few_shot_text2sql import FewShotText2SQL
+from src.strategy.prompt_organization import (
     DAILOrganization,
     FullInformationOrganization,
     SQLOnlyOrganization,
 )
-from zero_shot_text2sql import ZeroShotText2SQL
-import re
-import os
-from tqdm import tqdm
-from utils.files import write_to_file
+from src.llm import LLM
+from src.strategy.zero_shot_text2sql import ZeroShotText2SQL
+from src.utils.files import write_to_file
 
 
 def normalize_sql_query(query):

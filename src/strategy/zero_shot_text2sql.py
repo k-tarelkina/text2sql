@@ -1,6 +1,6 @@
-from database_catalog import DATABASE_CATALOG
-from llm import LLM
-from text2sql import Text2SQL
+from src.datasets.database_catalog import DATABASE_CATALOG
+from src.llm import LLM
+from src.strategy.text2sql import Text2SQL
 
 
 class ZeroShotText2SQL(Text2SQL):

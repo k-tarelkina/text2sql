@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from database_catalog import DATABASE_CATALOG
+from src.datasets.database_catalog import DATABASE_CATALOG
 
 
 class PromptOrganization:

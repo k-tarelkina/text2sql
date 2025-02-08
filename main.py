@@ -1,7 +1,7 @@
 import click
-from generate_predictions import run_prediction
-from utils.cli import params_path
-from utils.files import read_yaml
+from src.generate_predictions import run_prediction
+from src.utils.cli import params_path
+from src.utils.files import read_yaml
 
 
 @click.group()
