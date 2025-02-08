@@ -1,10 +1,10 @@
 from collections.abc import Sequence
-from typing import Any, Dict, Literal
 from datasets import load_dataset
+from typing import Any, Dict, Literal
 from tqdm import tqdm
-from src.llm import LLM
 import nltk
 from nltk import pos_tag
+from src.llm import LLM
 
 nltk.download("averaged_perceptron_tagger_eng")
 
@@ -13,7 +13,7 @@ class Dataset(Sequence):
     def __init__(
         self, llm: LLM, split: Literal["train", "validation"], limit=None
     ) -> None:
-        self.ds = load_dataset("xlangai/spider")[split]
+        self.ds = load_dataset("xlangai/spider", split=split)
 
         if limit is not None:
             self.ds = self.ds.select(range(limit))

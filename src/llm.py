@@ -22,7 +22,7 @@ class LLM:
         hf_token = os.getenv("HF_TOKEN")
 
         self.__tokenizer = AutoTokenizer.from_pretrained(
-            self.llm_name, padding_side="left", token=hf_token
+            self.llm_name, padding_side="left", use_auth_token=hf_token
         )
         self.__tokenizer.use_default_system_prompt = False
         self.__tokenizer.pad_token_id = self.__tokenizer.eos_token_id
@@ -32,7 +32,7 @@ class LLM:
             if self.device == "cuda"
             else None
         )
-        device_map = {"": 0} if self.device == "cuda" else "cpu"
+        device_map = "auto" if self.device == "cuda" else "cpu"
 
         self.__llm = AutoModelForCausalLM.from_pretrained(
             self.llm_name,
@@ -42,6 +42,9 @@ class LLM:
             token=hf_token,
         )
         self.__llm.eval()
+
+        if self.device == "cuda":
+            self.__llm = torch.compile(self.__llm)
 
     def __parse_answer(self, answer: str) -> str:
         processed_answer = answer.strip()
@@ -58,7 +61,7 @@ class LLM:
         turns = [{"role": "user", "content": prompt}]
 
         input_ids = self.__tokenizer.apply_chat_template(turns, return_tensors="pt").to(
-            self.device
+            self.device, non_blocking=True
         )
 
         with torch.no_grad():

@@ -48,14 +48,14 @@ def run_prediction(params):
     logger.write(f"End setting up LLM")
 
     # setup dataset
-    logger.write(f"Start setting up dataset")
+    logger.write(f"Start loading validation dataset")
     validation_dataset = Dataset(
         llm, split="validation", limit=validation_dataset_limit_rows
     )
+    logger.write(f"End loading validation dataset")
+    logger.write(f"Start loading train dataset")
     train_dataset = Dataset(llm, split="train", limit=train_dataset_limit_rows)
-    print("validation_dataset", len(validation_dataset))
-    print("train_dataset", len(train_dataset))
-    logger.write(f"End setting up dataset")
+    logger.write(f"End loading train dataset")
 
     # get prompt setups
     example_selections = {
