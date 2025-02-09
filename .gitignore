@@ -174,3 +174,5 @@ cython_debug/
 .idea
 
 results/
+database/
+__MACOSX/

@@ -7,3 +7,10 @@ prediction:
   train_dataset_limit_rows: 100
   output_folder: "predictions"
   parallelisation: True
+
+evaluation:
+  predictions_folder: "predictions"
+  output_folder: "evaluations"
+  etype: "all"
+  db_dir: "database"
+  table: "src/data/tables.json"

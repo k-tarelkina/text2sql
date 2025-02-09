@@ -26,9 +26,8 @@ from __future__ import print_function
 import os
 import json
 import sqlite3
-import argparse
 import time
-from process_sql import get_schema, Schema, get_sql
+from .process_sql import get_schema, Schema, get_sql
 
 import nltk
 
@@ -585,7 +584,14 @@ def isValidSQL(sql, db):
     return True
 
 
-def print_scores(scores, etype):
+def write_line(line, file):
+    if file != None:
+        file.write(line)
+    else:
+        print(line)
+
+
+def print_scores(scores, etype, output_path=None):
     levels = ["easy", "medium", "hard", "extra", "all"]
     partial_types = [
         "select",
@@ -600,65 +606,100 @@ def print_scores(scores, etype):
         "keywords",
     ]
 
-    print("{:20} {:20} {:20} {:20} {:20} {:20}".format("", *levels))
+    if output_path != None:
+        file = open(output_path, "a")
+    else:
+        file = None
+
+    write_line("{:20} {:20} {:20} {:20} {:20} {:20}".format("", *levels), file)
     counts = [scores[level]["count"] for level in levels]
-    print("{:20} {:<20d} {:<20d} {:<20d} {:<20d} {:<20d}".format("count", *counts))
+    write_line(
+        "{:20} {:<20d} {:<20d} {:<20d} {:<20d} {:<20d}".format("count", *counts), file
+    )
 
     if etype in ["all", "exec"]:
-        print("=====================   EXECUTION ACCURACY     =====================")
+        write_line(
+            "=====================   EXECUTION ACCURACY     =====================", file
+        )
         this_scores = [scores[level]["exec"] for level in levels]
-        print(
+        write_line(
             "{:20} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f}".format(
                 "execution", *this_scores
-            )
+            ),
+            file,
         )
 
     if etype in ["all", "time"]:
-        print("\n=====================   TIME ACCELERATION     =====================")
+        write_line(
+            "\n=====================   TIME ACCELERATION     =====================",
+            file,
+        )
         this_scores = [scores[level]["time"].mean() * 100 for level in levels]
-        print(
+        write_line(
             "{:20} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f}".format(
                 "time acceleration", *this_scores
-            )
+            ),
+            file,
         )
 
     if etype in ["all", "match"]:
-        print("\n====================== EXACT MATCHING ACCURACY =====================")
+        write_line(
+            "\n====================== EXACT MATCHING ACCURACY =====================",
+            file,
+        )
         exact_scores = [scores[level]["exact"] for level in levels]
-        print(
+        write_line(
             "{:20} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f}".format(
                 "exact match", *exact_scores
-            )
+            ),
+            file,
         )
-        print("\n---------------------PARTIAL MATCHING ACCURACY----------------------")
+        write_line(
+            "\n---------------------PARTIAL MATCHING ACCURACY----------------------",
+            file,
+        )
         for type_ in partial_types:
             this_scores = [scores[level]["partial"][type_]["acc"] for level in levels]
-            print(
+            write_line(
                 "{:20} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f}".format(
                     type_, *this_scores
-                )
+                ),
+                file,
             )
 
-        print("---------------------- PARTIAL MATCHING RECALL ----------------------")
+        write_line(
+            "---------------------- PARTIAL MATCHING RECALL ----------------------",
+            file,
+        )
         for type_ in partial_types:
             this_scores = [scores[level]["partial"][type_]["rec"] for level in levels]
-            print(
+            write_line(
                 "{:20} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f}".format(
                     type_, *this_scores
-                )
+                ),
+                file,
             )
 
-        print("---------------------- PARTIAL MATCHING F1 --------------------------")
+        write_line(
+            "---------------------- PARTIAL MATCHING F1 --------------------------",
+            file,
+        )
         for type_ in partial_types:
             this_scores = [scores[level]["partial"][type_]["f1"] for level in levels]
-            print(
+            write_line(
                 "{:20} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f} {:<20.3f}".format(
                     type_, *this_scores
-                )
+                ),
+                file,
             )
 
 
-def evaluate(gold, predict, db_dir, etype, kmaps):
+def evaluate(gold, predict, db_dir, etype, kmaps, result_file):
+    if result_file != None:
+        file = open(result_file, "a")
+    else:
+        file = None
+
     with open(gold) as f:
         glist = [l.strip().split("\t") for l in f.readlines() if len(l.strip()) > 0]
 
@@ -727,7 +768,7 @@ def evaluate(gold, predict, db_dir, etype, kmaps):
                 "where": [],
             }
             eval_err_num += 1
-            print("eval_err_num:{}".format(eval_err_num))
+            write_line("eval_err_num:{}".format(eval_err_num), file)
 
         # rebuild sql for value evaluation
         kmap = kmaps[db_name]
@@ -754,9 +795,9 @@ def evaluate(gold, predict, db_dir, etype, kmaps):
             exact_score = evaluator.eval_exact_match(p_sql, g_sql)
             partial_scores = evaluator.partial_scores
             if exact_score == 0:
-                print("{} pred: {}".format(hardness, p_str))
-                print("{} gold: {}".format(hardness, g_str))
-                print("")
+                write_line("{} pred: {}".format(hardness, p_str), file)
+                write_line("{} gold: {}".format(hardness, g_str), file)
+                write_line("", file)
             scores[hardness]["exact"] += exact_score
             scores["all"]["exact"] += exact_score
             for type_ in partial_types:
@@ -1135,25 +1176,3 @@ def build_foreign_key_map_from_json(table):
     for entry in data:
         tables[entry["db_id"]] = build_foreign_key_map(entry)
     return tables
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--gold", dest="gold", type=str)
-    parser.add_argument("--pred", dest="pred", type=str)
-    parser.add_argument("--db", dest="db", type=str)
-    parser.add_argument("--table", dest="table", type=str)
-    parser.add_argument("--etype", dest="etype", type=str)
-    args = parser.parse_args()
-
-    gold = args.gold
-    pred = args.pred
-    db_dir = args.db
-    table = args.table
-    etype = args.etype
-
-    assert etype in ["all", "exec", "match", "time"], "Unknown evaluation method"
-
-    kmaps = build_foreign_key_map_from_json(table)
-
-    evaluate(gold, pred, db_dir, etype, kmaps)

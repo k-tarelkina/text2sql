@@ -12,7 +12,7 @@ HF_TOKEN={your access token}
 Install necessary dependencies:
 
 ```bash
-pip install transformers bitsandbytes accelerate datasets outlines scikit-learn python-dotenv nltk
+pip install transformers bitsandbytes accelerate datasets outlines scikit-learn python-dotenv nltk gdown
 ```
 
 ## Evaluation

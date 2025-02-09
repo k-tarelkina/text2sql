@@ -18,7 +18,6 @@ from src.strategy.prompt_organization import (
 from src.llm import LLM
 from src.strategy.zero_shot_text2sql import ZeroShotText2SQL
 from src.utils.files import write_to_file
-from src.utils.log import Logger
 
 
 def normalize_sql_query(query):
@@ -34,15 +33,13 @@ def normalize_sql_query(query):
     return normalized_query
 
 
-def run_prediction(params):
+def run_prediction(params, logger):
     # extract params
     llm_name = params.get("llm")
     output_folder = params.get("output_folder", "results")
     validation_dataset_limit_rows = params.get("validation_dataset_limit_rows")
     train_dataset_limit_rows = params.get("train_dataset_limit_rows")
     parallelisation = params.get("parallelisation", False)
-
-    logger = Logger()
 
     # setup model
     logger.write(f"Start setting up LLM: {llm_name}")
