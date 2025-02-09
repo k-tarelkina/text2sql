@@ -4,7 +4,7 @@ count                12                   50                   21               
 execution            0.750                0.540                0.429                0.294                0.500               
 
 =====================   TIME ACCELERATION     =====================
-time acceleration    99.671               99.801               101.302              102.461              100.402             
+time acceleration    98.322               100.228              100.238              98.336               99.722              
 
 ====================== EXACT MATCHING ACCURACY =====================
 exact match          0.750                0.320                0.286                0.118                0.330               
@@ -42,6 +42,7 @@ order                1.000                0.667                0.667            
 and/or               1.000                0.958                0.865                0.938                0.942               
 IUEN                 1.000                1.000                1.000                1.000                1.000               
 keywords             1.000                0.486                0.500                0.400                0.503               
+
 eval_err_num:1
 medium pred: select s.song_name, s.song_release_year from singer s join singer_in_concert sic on s.singer_id = sic.singer_id join concert c on sic.concert_id = c.concert_id where s.age = (select min(age) from singer)
 medium gold: select song_name, song_release_year from singer order by age limit 1

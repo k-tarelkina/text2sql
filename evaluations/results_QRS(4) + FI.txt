@@ -4,7 +4,7 @@ count                12                   50                   21               
 execution            0.667                0.400                0.429                0.176                0.400               
 
 =====================   TIME ACCELERATION     =====================
-time acceleration    99.335               101.625              100.891              101.754              101.217             
+time acceleration    100.308              100.080              104.870              98.937               100.691             
 
 ====================== EXACT MATCHING ACCURACY =====================
 exact match          0.667                0.280                0.381                0.000                0.300               
@@ -42,6 +42,7 @@ order                1.000                0.889                0.667            
 and/or               1.000                0.980                0.976                0.786                0.953               
 IUEN                 1.000                1.000                1.000                1.000                1.000               
 keywords             1.000                0.529                0.562                0.100                0.500               
+
 eval_err_num:1
 medium pred: select avg(age) as average_age, min(age) as minimum_age, max(age) as maximum_age from singer where country = 'france'
 medium gold: select avg(age), min(age), max(age) from singer where country = 'france'

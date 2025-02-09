@@ -4,7 +4,7 @@ count                12                   50                   21               
 execution            1.000                0.620                0.952                1.000                0.800               
 
 =====================   TIME ACCELERATION     =====================
-time acceleration    100.308              100.114              99.495               99.468               99.902              
+time acceleration    99.282               101.002              100.490              100.227              100.557             
 
 ====================== EXACT MATCHING ACCURACY =====================
 exact match          1.000                0.600                1.000                1.000                0.800               
@@ -42,6 +42,7 @@ order                1.000                0.737                1.000            
 and/or               1.000                0.990                1.000                1.000                0.995               
 IUEN                 1.000                1.000                1.000                1.000                1.000               
 keywords             1.000                0.775                1.000                1.000                0.890               
+
 medium pred: select song_name, song_release_year from singer order by age desc limit 1
 medium gold: select song_name, song_release_year from singer order by age limit 1
 

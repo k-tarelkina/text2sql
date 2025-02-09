@@ -4,7 +4,7 @@ count                12                   50                   21               
 execution            0.417                0.020                0.000                0.000                0.060               
 
 =====================   TIME ACCELERATION     =====================
-time acceleration    101.570              105.777              100.107              0.000                102.686             
+time acceleration    101.076              98.460               99.791               0.000                100.163             
 
 ====================== EXACT MATCHING ACCURACY =====================
 exact match          0.417                0.020                0.000                0.000                0.060               
@@ -42,6 +42,7 @@ order                1.000                1.000                1.000            
 and/or               1.000                0.980                0.865                0.867                0.942               
 IUEN                 1.000                1.000                1.000                1.000                1.000               
 keywords             1.000                0.043                1.000                1.000                0.106               
+
 eval_err_num:1
 easy pred: select count(*) from singers
 easy gold: select count(*) from singer

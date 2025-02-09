@@ -692,6 +692,7 @@ def print_scores(scores, etype, output_path=None):
                 ),
                 file,
             )
+    write_line("", file)
 
 
 def evaluate(gold, predict, db_dir, etype, kmaps, result_file):
