@@ -11,13 +11,13 @@ class ZeroShotText2SQL(Text2SQL):
 
         self.prompt_template = """
       You are a very competent SQL agent.
-      ### Complete sqlite SQL query only and with no explanation in only one line.
-      ### Avoid using JOIN and its alternatives except when there is no other possibility.
-      ### Do not use "as".
-      ### Go for the simplest solution
-      ### Database schema:
+      Complete sqlite SQL query only and with no explanation.
+
+      Database schema:
       {schema}
-      ### {question} SELECT
+
+      Question:
+      {question}
     """.strip()
 
     def generate_sql(self, sample) -> str:

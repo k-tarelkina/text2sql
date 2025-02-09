@@ -12,10 +12,10 @@ class PromptOrganization:
 class FullInformationOrganization(PromptOrganization):
     def __init__(self):
         self.prompt_template = """
-            /* Given the following database schema : */
+            /* Given the following database schema: */
             {database_schema}
-            /* Answer the following : {question} */
-            {query}
+            /* Answer the following: {question} */
+            {query}\n
             """.strip()
 
     def get_prompt(self, sample, examples) -> str:
@@ -44,12 +44,16 @@ class FullInformationOrganization(PromptOrganization):
 class SQLOnlyOrganization(PromptOrganization):
     def __init__(self):
         self.prompt_template = """
-        /* Some SQL examples are provided based on similar problems : */
+        /* Some SQL examples are provided based on similar problems: */
         {example_queries}
-        /* Question : */
-        {question}
-        SELECT
-        """.strip()
+
+        /* Given the following database schema: */
+        {database_schema}
+
+        /* Answer the following: {question} */
+
+        /* Complete SQL query only and with no explanation */
+    """.strip()
 
     def get_prompt(self, sample, examples) -> str:
         example_queries = ""
@@ -59,9 +63,10 @@ class SQLOnlyOrganization(PromptOrganization):
             example_queries += "\n"
 
         result_prompt = self.prompt_template.format(
-            example_queries=example_queries, question=sample["question"]
+            example_queries=example_queries,
+            question=sample["question"],
+            database_schema=DATABASE_CATALOG.get_database_schema_by_id(sample["db_id"]),
         )
-        result_prompt += "\n/* Complete SQL query only and with no explanation */"
 
         return result_prompt.strip()
 
@@ -69,21 +74,34 @@ class SQLOnlyOrganization(PromptOrganization):
 class DAILOrganization(PromptOrganization):
     def __init__(self):
         self.prompt_template = """
-            /* Answer the following : {question} */
-            {query}
-            """.strip()
+        /* Some example questions and corresponding SQL queries are provided based on similar problems : */
+        {examples}
+
+        /* Given the following database schema: */
+        {database_schema}
+
+        /* Answer the following: {question} */
+
+        /* Complete SQL query only and with no explanation */""".strip()
 
     def get_prompt(self, sample, examples) -> str:
         example_queries = ""
 
+        example_prompt_template = """
+            /* Answer the following : {question} */
+                {query}
+            """.strip()
+
         for example in examples:
-            example_queries += example["query"]
+            example_queries += example_prompt_template.format(
+                question=example["question"], query=example["query"]
+            )
             example_queries += "\n"
 
-        result_prompt = "/* Some example questions and corresponding SQL queries are provided based on similar problems : */\n"
         result_prompt = self.prompt_template.format(
-            question=sample["question"], query=sample["query"]
+            examples=example_queries,
+            question=sample["question"],
+            database_schema=DATABASE_CATALOG.get_database_schema_by_id(sample["db_id"]),
         )
-        result_prompt += "\n/* Complete SQL query only and with no explanation */"
 
         return result_prompt
