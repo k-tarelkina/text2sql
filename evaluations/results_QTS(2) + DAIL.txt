@@ -1,0 +1,117 @@
+                     easy                 medium               hard                 extra                all                 
+count                12                   50                   21                   17                   100                 
+=====================   EXECUTION ACCURACY     =====================
+execution            1.000                0.620                0.952                1.000                0.800               
+
+=====================   TIME ACCELERATION     =====================
+time acceleration    98.074               99.318               99.658               100.670              99.468              
+
+====================== EXACT MATCHING ACCURACY =====================
+exact match          1.000                0.600                1.000                1.000                0.800               
+
+---------------------PARTIAL MATCHING ACCURACY----------------------
+select               1.000                0.973                1.000                1.000                0.989               
+select(no AGG)       1.000                0.973                1.000                1.000                0.989               
+where                1.000                0.929                1.000                1.000                0.979               
+where(no OP)         1.000                0.929                1.000                1.000                0.979               
+group(no Having)     0.000                0.727                1.000                1.000                0.800               
+group                0.000                0.727                1.000                1.000                0.800               
+order                0.000                0.778                1.000                1.000                0.867               
+and/or               1.000                0.980                1.000                1.000                0.990               
+IUEN                 0.000                0.000                1.000                1.000                1.000               
+keywords             1.000                0.912                1.000                1.000                0.961               
+---------------------- PARTIAL MATCHING RECALL ----------------------
+select               1.000                0.720                1.000                1.000                0.860               
+select(no AGG)       1.000                0.720                1.000                1.000                0.860               
+where                1.000                0.929                1.000                1.000                0.979               
+where(no OP)         1.000                0.929                1.000                1.000                0.979               
+group(no Having)     0.000                0.364                1.000                1.000                0.462               
+group                0.000                0.364                1.000                1.000                0.462               
+order                0.000                0.700                1.000                1.000                0.812               
+and/or               1.000                1.000                1.000                1.000                1.000               
+IUEN                 0.000                0.000                1.000                1.000                1.000               
+keywords             1.000                0.674                1.000                1.000                0.830               
+---------------------- PARTIAL MATCHING F1 --------------------------
+select               1.000                0.828                1.000                1.000                0.920               
+select(no AGG)       1.000                0.828                1.000                1.000                0.920               
+where                1.000                0.929                1.000                1.000                0.979               
+where(no OP)         1.000                0.929                1.000                1.000                0.979               
+group(no Having)     1.000                0.485                1.000                1.000                0.585               
+group                1.000                0.485                1.000                1.000                0.585               
+order                1.000                0.737                1.000                1.000                0.839               
+and/or               1.000                0.990                1.000                1.000                0.995               
+IUEN                 1.000                1.000                1.000                1.000                1.000               
+keywords             1.000                0.775                1.000                1.000                0.890               
+medium pred: select song_name, song_release_year from singer order by age desc limit 1
+medium gold: select song_name, song_release_year from singer order by age limit 1
+
+medium pred: select song_name, song_release_year from singer where age = (select min(age) from singer)
+medium gold: select song_name, song_release_year from singer order by age limit 1
+
+eval_err_num:1
+medium pred: select country, count(*) as number_of_singers from singer group by country
+medium gold: select country, count(*) from singer group by country
+
+eval_err_num:2
+medium pred: select country, count(*) as singer_count from singer group by country
+medium gold: select country, count(*) from singer group by country
+
+medium pred: select max(capacity), avg(capacity) from stadium
+medium gold: select max(capacity), average from stadium
+
+eval_err_num:3
+medium pred: select avg(capacity) as average_capacity, max(capacity) as max_capacity from stadium
+medium gold: select avg(capacity), max(capacity) from stadium
+
+eval_err_num:4
+medium pred: select count(*) from concert where year in (2014, 2015)
+medium gold: select count(*) from concert where year = 2014 or year = 2015
+
+medium pred: select t2.name, count(*) from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id group by t2.name
+medium gold: select t2.name, count(*) from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id group by t1.stadium_id
+
+medium pred: select t2.name, count(*) from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id group by t2.name
+medium gold: select t2.name, count(*) from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id group by t1.stadium_id
+
+eval_err_num:5
+medium pred: select t2.concert_name, t2.theme, count(*) as number_of_singers from singer_in_concert as t1 join concert as t2 on t1.concert_id = t2.concert_id group by t2.concert_id, t2.concert_name, t2.theme
+medium gold: select t2.concert_name, t2.theme, count(*) from singer_in_concert as t1 join concert as t2 on t1.concert_id = t2.concert_id group by t2.concert_id
+
+medium pred: select t2.name, count(*) from singer_in_concert as t1 join singer as t2 on t1.singer_id = t2.singer_id group by t2.name
+medium gold: select t2.name, count(*) from singer_in_concert as t1 join singer as t2 on t1.singer_id = t2.singer_id group by t2.singer_id
+
+medium pred: select weight from pets order by pet_age desc limit 1
+medium gold: select weight from pets order by pet_age limit 1
+
+eval_err_num:6
+medium pred: select max(weight) as max_weight, pettype from pets group by pettype
+medium gold: select max(weight), pettype from pets group by pettype
+
+eval_err_num:7
+medium pred: select avg(pet_age) as average_age, max(pet_age) as max_age, pettype from pets group by pettype
+medium gold: select avg(pet_age), max(pet_age), pettype from pets group by pettype
+
+eval_err_num:8
+medium pred: select avg(pet_age) as average_age, max(pet_age) as max_age, pettype from pets group by pettype
+medium gold: select avg(pet_age), max(pet_age), pettype from pets group by pettype
+
+eval_err_num:9
+medium pred: select avg(weight) as average_weight, pettype from pets group by pettype
+medium gold: select avg(weight), pettype from pets group by pettype
+
+eval_err_num:10
+medium pred: select avg(weight) as average_weight, pettype from pets group by pettype
+medium gold: select avg(weight), pettype from pets group by pettype
+
+eval_err_num:11
+medium pred: select t1.stuid, count(t2.petid) as pet_count from student as t1 join has_pet as t2 on t1.stuid = t2.stuid group by t1.stuid
+medium gold: select count(*), t1.stuid from student as t1 join has_pet as t2 on t1.stuid = t2.stuid group by t1.stuid
+
+eval_err_num:12
+medium pred: select t1.stuid, count(*) as pet_count from student as t1 join has_pet as t2 on t1.stuid = t2.stuid group by t1.stuid
+medium gold: select count(*), t1.stuid from student as t1 join has_pet as t2 on t1.stuid = t2.stuid group by t1.stuid
+
+eval_err_num:13
+medium pred: select t1.contid, t1.continent, count(*) as countrycount from continents as t1 join countries as t2 on t1.contid = t2.continent group by t1.contid, t1.continent
+medium gold: select t1.contid, t1.continent, count(*) from continents as t1 join countries as t2 on t1.contid = t2.continent group by t1.contid
+
