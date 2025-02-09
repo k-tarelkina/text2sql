@@ -5,5 +5,5 @@ prediction:
     do_sample: False
   validation_dataset_limit_rows: 100
   train_dataset_limit_rows: 100
-  output_folder: "results"
+  output_folder: "predictions"
   parallelisation: True

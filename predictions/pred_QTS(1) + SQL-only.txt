@@ -1,0 +1,100 @@
+select count(*) from singers
+select count(*) from singers
+select name, country, age from singers order by age desc
+select name, country, age from singer order by age desc
+select avg(age) as average_age, min(age) as minimum_age, max(age) as maximum_age from singers where country = 'france'
+select avg(age) as average_age, min(age) as minimum_age, max(age) as maximum_age from singers where nationality = 'french'
+select s.name, s.release_year from singer as s join song as sg on s.singer_id = sg.singer_id order by s.age asc limit 1
+select name, release_year from songs where artist_id = ( select artist_id from artists order by age desc limit 1 )
+select distinct country from singers where age > 20
+select country from singers where age > 20 group by country having count(*) > 1
+select country, count(*) as numberofsingers from singer group by country
+select country, count(*) as numberofsingers from singer group by country
+select name from songs where age > (select avg(age) from singers)
+select name from songs where age > (select avg(age) from singers)
+select location, name from stadiums where capacity between 5000 and 10000
+select name, location from station where capacity between 5000 and 10000
+select max(capacity), avg(capacity) from stadiums
+select avg(capacity) as averagecapacity, max(capacity) as maximumcapacity from stadiums
+select t1.stadium_name, t1.capacity from city as t1 join farm_competition as t2 on t1.city_id = t2.host_city_id group by t1.stadium_name, t1.capacity order by avg(t2.attendance) desc limit 1
+select count(*) from concerts where year in (2014, 2015)
+select t1.stadium_name, t1.capacity from city as t1 join farm_competition as t2 on t1.city_id = t2.host_city_id group by t1.stadium_name, t1.capacity order by avg(t2.attendance) desc limit 1
+select count(*) from concerts where year in (2014, 2015)
+select stadium, count(*) as concert_count from concerts group by stadium
+select t1.stadium_name, count(t2.concert_id) as number_of_concerts from stadium as t1 join concert as t2 on t1.stadium_id = t2.stadium_id group by t1.stadium_name order by number_of_concerts desc
+select s.stadium_name, s.capacity from stadiums as s join concerts as c on s.stadium_id = c.stadium_id where c.year >= 2014 group by s.stadium_name, s.capacity order by count(*) desc limit 1
+select t1.stadium_name, t1.capacity from city as t1 join farm_competition as t2 on t1.city_id = t2.host_city_id where t2.year > 2013 group by t1.stadium_name, t1.capacity order by count(*) desc limit 1
+select extract(year from date) as year, count(*) as count from concerts group by year order by count desc limit 1
+select extract(year from date) as year, count(*) as count from concerts group by year order by count desc limit 1
+select distinct s.stadium_name from stadiums s left join concerts c on s.stadium_id = c.stadium_id where c.concert_id is null
+select stadium_name from stadium where stadium_id not in (select event_stadium_id from event)
+select country from singer where age > 40 or age < 30
+select distinct t1.stadium_name from stadium as t1 left join concert as t2 on t1.stadium_id = t2.stadium_id where t2.concert_year is null or t2.concert_year != 2014
+select official_name from city where city_id not in (select host_city_id from farm_competition where year = 2014)
+select c.name as concert_name, c.theme as concert_theme, count(s.singer_id) as number_of_singers from concerts as c join singers as s on c.concert_id = s.concert_id group by c.concert_id, c.name, c.theme
+select concert_name, concert_theme, count(singer_name) as number_of_singers from concert group by concert_name, concert_theme
+select name, count(*) as number_of_concerts from concerts group by name
+select t2.first_name, t2.last_name, count(t3.concert_id) as number_of_concerts from singers as t1 join people as t2 on t1.singer_id = t2.person_id join concerts as t3 on t1.singer_id = t3.singer_id group by t2.first_name, t2.last_name
+select name from concerts where year = 2014
+select name from head where concert_year = 2014
+select first_name, nation from people where song_name like '%hey%'
+select s.first_name, s.last_name, c.country from songs as s join singers as sg on s.singer_id = sg.singer_id join countries as c on sg.country_id = c.country_id where s.title like '%hey%'
+select t1.stadium_name, t1.location from stadium as t1 join concert as t2 on t1.stadium_id = t2.stadium_id where t2.year in (2014, 2015) group by t1.stadium_name, t1.location having count(*) > 1
+select distinct t2.stadium_name, t2.location from city as t1 join farm_competition as t2 on t1.city_id = t2.host_city_id where t2.year in (2014, 2015)
+select count(*) from concerts where stadium_id = ( select stadium_id from stadiums order by capacity desc limit 1 )
+select count(*) from concerts where stadium_id = ( select stadium_id from stadiums order by capacity desc limit 1 )
+select count(*) from pets where weight > 10
+select count(*) from pets where weight > 10
+select weight from dogs where age = (select min(age) from dogs)
+select min(weight) from dogs where age = (select min(age) from dogs)
+select pet_type, max(weight) as max_weight from pets group by pet_type
+select pettype, max(weight) as maxweight from pets group by pettype
+select count(*) as numberofpets from pets join students on pets.student_id = students.id where students.age > 20
+select count(*) from pets join students on pets.student_id = students.student_id where students.age > 20
+select count(*) from pets where owner_sex = 'f' and pet_type = 'dog'
+select count(*) from pets join students on pets.student_id = students.id where students.gender = 'female' and pets.pet_type = 'dog'
+select count(distinct type) from pets
+select count(distinct pettype) from pets
+select first_name from students where pet = 'cat' or pet = 'dog'
+select first_name from students where pet in ('cat', 'dog')
+select t1.first_name from students as t1 join pet_ownership as t2 on t1.student_id = t2.student_id where t2.pet_type = 'cat' and exists ( select 1 from pet_ownership as t3 where t3.student_id = t1.student_id and t3.pet_type = 'dog' )
+select first_name from students where pet = 'cat' and pet = 'dog'
+select major, age from students where pet = 'cat' and pet = 'dog'
+select t2.major, t2.age from students as t2 left join pet_ownership as t1 on t2.student_id = t1.student_id where t1.pet_type = 'cat' and t1.pet_type is null
+select id from students where pet = 'cat' and pet is null
+select student_id from student_course_attendance where course_id = 301 and pet_type != 'cat'
+select first_name, age from students where pet = 'dog' and pet != 'cat'
+select first_name from students where pet_type = 'dog' and pet_type != 'cat'
+select t1.type, t1.weight from pet as t1 join pet_ownership as t2 on t1.pet_id = t2.pet_id where t2.owner_id = (select owner_id from pet_ownership where pet_id = (select pet_id from pet order by age desc limit 1))
+select distinct t1.pet_type, t1.weight from pets as t1 join animals as t2 on t1.animal_id = t2.animal_id where t2.age = (select min(age) from animals)
+select id, weight from pets where age > 1
+select pet_id, weight from pets where age > 1
+select pet_type, avg(age) as average_age, max(age) as max_age from pets group by pet_type
+select pet_type, avg(age) as average_age, max(age) as max_age from pets group by pet_type
+select pet_type, avg(weight) as average_weight from pets group by pet_type
+select pettype, avg(weight) as averageweight from pets group by pettype
+select first_name, age from students where pet_owner = 'yes'
+select distinct t2.first_name, t2.age from student_course_registrations as t1 join students as t2 on t1.student_id = t2.student_id join pets as t3 on t2.student_id = t3.student_id
+select pet_id from students join pet_ownership on students.student_id = pet_ownership.student_id where last_name = 'smith'
+select pet_id from pets join students on pets.student_id = students.student_id where students.last_name = 'smith'
+select student_id, count(*) as pet_count from pets group by student_id having count(*) > 0
+select student_id, count(pet_id) as pet_count from students join pets on students.student_id = pets.student_id group by student_id
+select first_name, gender from student where pet_count > 1
+select t1.first_name, t1.gender from students as t1 join pet_ownership as t2 on t1.student_id = t2.student_id group by t1.student_id having count(t2.pet_id) > 1
+select s.last_name from students s join pets p on s.student_id = p.student_id where p.animal_type = 'cat' and p.age = 3
+select last_name from students where pet_age = 3 and pet_type = 'cat'
+select avg(age) from students where pet_id is null
+select avg(age) from students where pet_id is null
+select count(distinct continent) from city
+select count(distinct continent) from city
+select continent_id, continent_name, count(country_id) as number_of_countries from countries group by continent_id, continent_name having count(country_id) > 1
+select continent_id, continent_name, count(country_id) as number_of_countries from continents group by continent_id, continent_name
+select count(distinct country) from countries
+select count(distinct country) from farm
+select maker_full_name, maker_id, count(model_id) as number_of_models from car_maker group by maker_full_name, maker_id
+select c.id, c.name, count(m.id) as model_count from car_makers as c join models as m on c.id = m.maker_id group by c.id, c.name
+select model, min(horsepower) from cars group by model
+select model from cars order by horsepower asc limit 1
+select model from cars where weight < (select avg(weight) from cars)
+select model from cars where weight < (select avg(weight) from cars)
+select maker_name from cars where year = 1970
