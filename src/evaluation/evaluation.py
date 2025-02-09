@@ -586,7 +586,7 @@ def isValidSQL(sql, db):
 
 def write_line(line, file):
     if file != None:
-        file.write(line)
+        file.write(line + "\n")
     else:
         print(line)
 
@@ -875,7 +875,7 @@ def evaluate(gold, predict, db_dir, etype, kmaps, result_file):
                         )
                     )
 
-    print_scores(scores, etype)
+    print_scores(scores, etype, result_file)
 
 
 def eval_exec_match(db, p_str, g_str, pred, gold):

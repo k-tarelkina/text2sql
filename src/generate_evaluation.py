@@ -5,7 +5,7 @@ from src.evaluation.evaluation import build_foreign_key_map_from_json, evaluate
 
 
 def download_from_gdrive(file_id, output_folder, logger):
-    extracted_folder = os.path.join(output_folder, "testsuitedatabases")
+    extracted_folder = os.path.join(output_folder, "database")
     if os.path.exists(extracted_folder):
         logger.write("Extraction of test database already done, skipping download")
         return
@@ -59,7 +59,6 @@ def run_evaluation(params, logger):
                 )
 
                 kmaps = build_foreign_key_map_from_json(table)
-                logger.write(f"kmaps {kmaps}")
                 evaluate(gold_path, pred_path, db_dir, etype, kmaps, result_file)
 
                 logger.write(f"End evaluating {gold_method_name}")
