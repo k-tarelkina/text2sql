@@ -40,13 +40,6 @@ gdown 1mkCx2GOFIqNesD4y8TDAO1yX1QZORP5w
 unzip testsuitedatabases.zip -d text2sql
 ```
 
-Before running the script, please make sure to download the databases from the test suite and place them in the root directory of this project:
-
-```bash
-gdown 1mkCx2GOFIqNesD4y8TDAO1yX1QZORP5w
-unzip testsuitedatabases.zip -d text2sql
-```
-
 ```bash
 python main.py evaluate
 
