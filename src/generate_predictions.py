@@ -19,6 +19,8 @@ from src.llm import LLM
 from src.strategy.zero_shot_text2sql import ZeroShotText2SQL
 from src.utils.files import write_to_file
 
+n_examples = [1, 3, 5]
+
 
 def normalize_sql_query(query):
     normalized_query = query.replace("```sql", "")
@@ -68,7 +70,6 @@ def run_prediction(params, logger):
         "SQL-only": SQLOnlyOrganization(),
         "DAIL": DAILOrganization(),
     }
-    n_examples = [1, 2, 4]
     sql_generators = {"Zero-shot": ZeroShotText2SQL(llm, logger)}
 
     # initiate generators
