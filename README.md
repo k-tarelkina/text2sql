@@ -23,19 +23,21 @@ To do that, run the following command:
 
 ```bash
 python main.py predict
+
+# or
+
+python main.py predict --params_path params_llama.yaml
 ```
+
 
 The files will be generated in the `results` folder.
 
 The evaluation script is based on that from https://github.com/taoyds/spider/tree/master.
 
 ```bash
-python evaluation.py --gold [gold file] --pred [predicted file] --etype [evaluation type] --db [database dir] --table [table file]
+python main.py evaluate
 
-arguments:
-  [gold file]        gold.sql file where each line is `a gold SQL \t db_id`
-  [predicted file]   predicted sql file where each line is a predicted SQL
-  [evaluation type]  "match" for exact set matching score, "exec" for execution score, "time" for execution time, and "all" for all
-  [database dir]     directory which contains sub-directories where each SQLite3 database is stored
-  [table file]       table.json file which includes foreign key info of each database
+# or
+
+python main.py evaluate --params_path params_llama.yaml
 ```

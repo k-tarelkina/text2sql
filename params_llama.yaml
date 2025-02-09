@@ -1,0 +1,16 @@
+prediction:
+  llm:
+    name: "meta-llama/Meta-Llama-3.1-8B-Instruct"
+    max_new_tokens: 500
+    do_sample: False
+  validation_dataset_limit_rows: 100
+  train_dataset_limit_rows: 100
+  output_folder: "predictions_llama"
+  parallelisation: True
+
+evaluation:
+  predictions_folder: "predictions_llama"
+  output_folder: "evaluations_llama"
+  etype: "all"
+  db_dir: "database"
+  table: "src/data/tables.json"
