@@ -754,7 +754,7 @@ def evaluate(gold, predict, db_dir, etype, kmaps, result_file):
 
         try:
             p_sql = get_sql(schema, p_str)
-        except:
+        except Exception as e:
             # If p_sql is not valid, then we will use an empty sql to evaluate with the correct sql
             p_sql = {
                 "except": None,
@@ -770,6 +770,7 @@ def evaluate(gold, predict, db_dir, etype, kmaps, result_file):
             }
             eval_err_num += 1
             write_line("eval_err_num:{}".format(eval_err_num), file)
+            write_line(e, file)
 
         # rebuild sql for value evaluation
         kmap = kmaps[db_name]
