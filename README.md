@@ -29,7 +29,6 @@ python main.py predict
 python main.py predict --params_path params_llama.yaml
 ```
 
-
 The files will be generated in the `results` folder.
 
 The evaluation script is based on that from https://github.com/taoyds/spider/tree/master.

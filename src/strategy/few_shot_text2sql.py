@@ -29,11 +29,11 @@ class FewShotText2SQL(Text2SQL):
         examples = self.__example_selection.select_examples(
             sample, self.__dataset, self.__n_examples
         )
-        self.__logger.write("End generating prompt")
+        prompt = self.__prompt_organization.get_prompt(sample, examples)
+        self.__logger.write(f"End generating prompt, prompt: {prompt}")
 
         self.__logger.write("Start asking LLM")
-        prompt = self.__prompt_organization.get_prompt(sample, examples)
         result = self.__llm.answer(prompt)
-        self.__logger.write("End asking LLM")
+        self.__logger.write(f"End asking LLM, answer: {result}")
 
         return result

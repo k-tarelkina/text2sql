@@ -4,7 +4,7 @@ prediction:
     max_new_tokens: 500
     do_sample: False
   validation_dataset_limit_rows: 100
-  train_dataset_limit_rows: 300
+  train_dataset_limit_rows: 100
   output_folder: "predictions_llama"
   parallelisation: True
 
