@@ -9,8 +9,8 @@ prediction:
   parallelisation: True
 
 evaluation:
-  predictions_folder: "predictions_llama"
-  output_folder: "evaluations_llama"
+  predictions_folder: "predictions/predictions_llama"
+  output_folder: "evaluations/evaluations_llama"
   etype: "all"
   db_dir: "database"
   table: "src/data/tables.json"
