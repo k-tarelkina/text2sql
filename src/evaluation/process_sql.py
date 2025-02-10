@@ -216,6 +216,8 @@ def parse_col(toks, start_idx, tables_with_alias, schema, default_tables=None):
             key = table + "." + tok
             return start_idx + 1, schema.idMap[key]
     print(toks)
+    print("Error col:")
+    print("\n\n")
     assert False, "Error col: {}".format(tok)
 
 
