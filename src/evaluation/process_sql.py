@@ -215,7 +215,7 @@ def parse_col(toks, start_idx, tables_with_alias, schema, default_tables=None):
         if tok in schema.schema[table]:
             key = table + "." + tok
             return start_idx + 1, schema.idMap[key]
-
+    print(toks)
     assert False, "Error col: {}".format(tok)
 
 
@@ -240,6 +240,7 @@ def parse_col_unit(toks, start_idx, tables_with_alias, schema, default_tables=No
             idx += 1
             isDistinct = True
         if toks[idx] == "as":  # Quick fix
+            print("pass as")
             idx += 1
         idx, col_id = parse_col(toks, idx, tables_with_alias, schema, default_tables)
         assert idx < len_ and toks[idx] == ")"
@@ -250,6 +251,7 @@ def parse_col_unit(toks, start_idx, tables_with_alias, schema, default_tables=No
         idx += 1
         isDistinct = True
     if toks[idx] == "as":  # Quick fix
+        print("pass as")
         idx += 1
     agg_id = AGG_OPS.index("none")
     idx, col_id = parse_col(toks, idx, tables_with_alias, schema, default_tables)
