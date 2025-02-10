@@ -239,6 +239,8 @@ def parse_col_unit(toks, start_idx, tables_with_alias, schema, default_tables=No
         if toks[idx] == "distinct":
             idx += 1
             isDistinct = True
+        if toks[idx] == "as":  # Quick fix
+            idx += 1
         idx, col_id = parse_col(toks, idx, tables_with_alias, schema, default_tables)
         assert idx < len_ and toks[idx] == ")"
         idx += 1
