@@ -240,7 +240,7 @@ def parse_col_unit(toks, start_idx, tables_with_alias, schema, default_tables=No
             idx += 1
             isDistinct = True
         if toks[idx] == "as":  # Quick fix
-            idx += 2
+            idx += 3
         idx, col_id = parse_col(toks, idx, tables_with_alias, schema, default_tables)
         assert idx < len_ and toks[idx] == ")"
         idx += 1
@@ -250,7 +250,7 @@ def parse_col_unit(toks, start_idx, tables_with_alias, schema, default_tables=No
         idx += 1
         isDistinct = True
     if toks[idx] == "as":  # Quick fix
-        idx += 2
+        idx += 3
     agg_id = AGG_OPS.index("none")
     idx, col_id = parse_col(toks, idx, tables_with_alias, schema, default_tables)
 
