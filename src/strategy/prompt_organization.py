@@ -21,7 +21,7 @@ class FullInformationOrganization(PromptOrganization):
 
     def get_prompt(self, sample, examples) -> str:
         result_prompt = """
-        Complete SQL query only and with no explanation.
+        Provide sqlite SQL query only and with no explanation.
         Avoid using JOIN and its alternatives except when there is no other possibility.
         Avoid using "as".
         Avoid aliases for table names when possible. If you need to use an alias for a table, use "as", e.g. "table_name as alias".
@@ -40,7 +40,7 @@ class FullInformationOrganization(PromptOrganization):
 
         result_prompt += self.prompt_template.format(
             question=sample["question"],
-            query="SELECT",
+            query="",
             database_schema=DATABASE_CATALOG.get_database_schema_by_id(sample["db_id"]),
         )
 
@@ -58,7 +58,7 @@ class SQLOnlyOrganization(PromptOrganization):
         Some SQL examples are provided based on similar problems:
         {example_queries}
 
-        Complete SQL query only and with no explanation.
+        Provide sqlite SQL query only and with no explanation.
         Avoid using JOIN and its alternatives except when there is no other possibility.
         Avoid using "as".
         Avoid aliases for table names when possible. If you need to use an alias for a table, use "as", e.g. "table_name as alias".
@@ -92,7 +92,7 @@ class DAILOrganization(PromptOrganization):
         Some example questions and corresponding SQL queries are provided based on similar problems : */
         {examples}
 
-        Complete SQL query only and with no explanation.
+        Provide sqlite SQL query only and with no explanation.
         Avoid using JOIN and its alternatives except when there is no other possibility.
         Avoid using "as".
         Avoid aliases for table names when possible. If you need to use an alias for a table, use "as", e.g. "table_name as alias".
