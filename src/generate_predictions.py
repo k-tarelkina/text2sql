@@ -45,7 +45,7 @@ def run_prediction(params, logger):
 
     # setup model
     logger.write(f"Start setting up LLM: {llm_name}")
-    llm = LLM(llm_name)
+    llm = LLM(llm_name, logger=logger)
     logger.write(f"End setting up LLM")
 
     # setup dataset
