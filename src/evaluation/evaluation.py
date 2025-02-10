@@ -770,7 +770,7 @@ def evaluate(gold, predict, db_dir, etype, kmaps, result_file):
             }
             eval_err_num += 1
             write_line("eval_err_num:{}".format(eval_err_num), file)
-            write_line(e, file)
+            write_line(f"\n{e}", file)
 
         # rebuild sql for value evaluation
         kmap = kmaps[db_name]
