@@ -10,14 +10,18 @@ class ZeroShotText2SQL(Text2SQL):
         self.__logger = logger
 
         self.prompt_template = """
-      You are a very competent SQL agent.
-      Complete sqlite SQL query only and with no explanation.
+            You are a very competent SQL agent.
+            Complete sqlite SQL query only and with no explanation.
+            Avoid using JOIN and its alternatives except when there is no other possibility.
+            Avoid using "as".
+            Avoid aliases for table names when possible. If you need to use an alias for a table, use "as", e.g. "table_name as alias".
+            Go for the simplest solution.
 
-      Database schema:
-      {schema}
+            Database schema:
+            {schema}
 
-      Question:
-      {question}
+            Question:
+            {question}
     """.strip()
 
     def generate_sql(self, sample) -> str:

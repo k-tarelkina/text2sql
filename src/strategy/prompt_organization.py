@@ -12,14 +12,21 @@ class PromptOrganization:
 class FullInformationOrganization(PromptOrganization):
     def __init__(self):
         self.prompt_template = """
-            /* Given the following database schema: */
+            Given the following database schema:
             {database_schema}
-            /* Answer the following: {question} */
-            {query}\n
+
+            Answer the following: {question}
+            {query}
             """.strip()
 
     def get_prompt(self, sample, examples) -> str:
-        result_prompt = ""
+        result_prompt = """
+        Complete SQL query only and with no explanation.
+        Avoid using JOIN and its alternatives except when there is no other possibility.
+        Avoid using "as".
+        Avoid aliases for table names when possible. If you need to use an alias for a table, use "as", e.g. "table_name as alias".
+        Go for the simplest solution.
+        """
 
         for example in examples:
             result_prompt += self.prompt_template.format(
@@ -37,22 +44,25 @@ class FullInformationOrganization(PromptOrganization):
             database_schema=DATABASE_CATALOG.get_database_schema_by_id(sample["db_id"]),
         )
 
-        result_prompt += "\n/* Complete SQL query only and with no explanation */"
         return result_prompt.strip()
 
 
 class SQLOnlyOrganization(PromptOrganization):
     def __init__(self):
         self.prompt_template = """
-        /* Some SQL examples are provided based on similar problems: */
-        {example_queries}
-
-        /* Given the following database schema: */
+        Given the following database schema:
         {database_schema}
 
-        /* Answer the following: {question} */
+        Answer the following: {question}
 
-        /* Complete SQL query only and with no explanation */
+        Some SQL examples are provided based on similar problems:
+        {example_queries}
+
+        Complete SQL query only and with no explanation.
+        Avoid using JOIN and its alternatives except when there is no other possibility.
+        Avoid using "as".
+        Avoid aliases for table names when possible. If you need to use an alias for a table, use "as", e.g. "table_name as alias".
+        Go for the simplest solution.
     """.strip()
 
     def get_prompt(self, sample, examples) -> str:
@@ -74,22 +84,27 @@ class SQLOnlyOrganization(PromptOrganization):
 class DAILOrganization(PromptOrganization):
     def __init__(self):
         self.prompt_template = """
-        /* Some example questions and corresponding SQL queries are provided based on similar problems : */
-        {examples}
-
-        /* Given the following database schema: */
+        Given the following database schema:
         {database_schema}
 
-        /* Answer the following: {question} */
+        Answer the following: {question}
 
-        /* Complete SQL query only and with no explanation */""".strip()
+        Some example questions and corresponding SQL queries are provided based on similar problems : */
+        {examples}
+
+        Complete SQL query only and with no explanation.
+        Avoid using JOIN and its alternatives except when there is no other possibility.
+        Avoid using "as".
+        Avoid aliases for table names when possible. If you need to use an alias for a table, use "as", e.g. "table_name as alias".
+        Go for the simplest solution.
+        """.strip()
 
     def get_prompt(self, sample, examples) -> str:
         example_queries = ""
 
         example_prompt_template = """
-            /* Answer the following : {question} */
-                {query}
+            Question : {question}
+            Answer : {query}
             """.strip()
 
         for example in examples:
