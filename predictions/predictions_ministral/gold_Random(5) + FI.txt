@@ -52,8 +52,8 @@ select max(weight), pettype from pets group by pettype	pets_1
 select count(*) from student as t1 join has_pet as t2 on t1.stuid = t2.stuid where t1.age > 20	pets_1
 select count(*) from student as t1 join has_pet as t2 on t1.stuid = t2.stuid where t1.age > 20	pets_1
 select count(*) from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t2.petid = t3.petid where t1.sex = 'f' and t3.pettype = 'dog'	pets_1
-select count(*) from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t2.petid = t3.petid where t1.sex = 'f' and t3.pettype = 'dog'	pets_1
 select count(distinct pettype) from pets	pets_1
+select count(*) from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t2.petid = t3.petid where t1.sex = 'f' and t3.pettype = 'dog'	pets_1
 select count(distinct pettype) from pets	pets_1
 select distinct t1.fname from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat' or t3.pettype = 'dog'	pets_1
 select distinct t1.fname from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat' or t3.pettype = 'dog'	pets_1

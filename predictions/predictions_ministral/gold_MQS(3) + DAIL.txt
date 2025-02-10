@@ -5,8 +5,8 @@ select name, country, age from singer order by age desc	concert_singer
 select avg(age), min(age), max(age) from singer where country = 'france'	concert_singer
 select avg(age), min(age), max(age) from singer where country = 'france'	concert_singer
 select song_name, song_release_year from singer order by age limit 1	concert_singer
-select song_name, song_release_year from singer order by age limit 1	concert_singer
 select distinct country from singer where age > 20	concert_singer
+select song_name, song_release_year from singer order by age limit 1	concert_singer
 select distinct country from singer where age > 20	concert_singer
 select country, count(*) from singer group by country	concert_singer
 select country, count(*) from singer group by country	concert_singer
@@ -88,8 +88,8 @@ select avg(age) from student where stuid not in (select stuid from has_pet)	pets
 select count(*) from continents	car_1
 select count(*) from continents	car_1
 select t1.contid, t1.continent, count(*) from continents as t1 join countries as t2 on t1.contid = t2.continent group by t1.contid	car_1
-select count(*) from countries	car_1
 select t1.contid, t1.continent, count(*) from continents as t1 join countries as t2 on t1.contid = t2.continent group by t1.contid	car_1
+select count(*) from countries	car_1
 select count(*) from countries	car_1
 select t1.fullname, t1.id, count(*) from car_makers as t1 join model_list as t2 on t1.id = t2.maker group by t1.id	car_1
 select t1.fullname, t1.id, count(*) from car_makers as t1 join model_list as t2 on t1.id = t2.maker group by t1.id	car_1

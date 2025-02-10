@@ -70,8 +70,8 @@ select pettype, weight from pets order by pet_age limit 1	pets_1
 select petid, weight from pets where pet_age > 1	pets_1
 select petid, weight from pets where pet_age > 1	pets_1
 select avg(pet_age), max(pet_age), pettype from pets group by pettype	pets_1
-select avg(pet_age), max(pet_age), pettype from pets group by pettype	pets_1
 select avg(weight), pettype from pets group by pettype	pets_1
+select avg(pet_age), max(pet_age), pettype from pets group by pettype	pets_1
 select avg(weight), pettype from pets group by pettype	pets_1
 select distinct t1.fname, t1.age from student as t1 join has_pet as t2 on t1.stuid = t2.stuid	pets_1
 select distinct t1.fname, t1.age from student as t1 join has_pet as t2 on t1.stuid = t2.stuid	pets_1

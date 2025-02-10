@@ -89,11 +89,11 @@ select avg(age) from student where stuid not in (select stuid from has_pet)	pets
 select count(*) from continents	car_1
 select t1.contid, t1.continent, count(*) from continents as t1 join countries as t2 on t1.contid = t2.continent group by t1.contid	car_1
 select count(*) from countries	car_1
-select t1.contid, t1.continent, count(*) from continents as t1 join countries as t2 on t1.contid = t2.continent group by t1.contid	car_1
 select count(*) from countries	car_1
-select t1.fullname, t1.id, count(*) from car_makers as t1 join model_list as t2 on t1.id = t2.maker group by t1.id	car_1
+select t1.contid, t1.continent, count(*) from continents as t1 join countries as t2 on t1.contid = t2.continent group by t1.contid	car_1
 select t1.fullname, t1.id, count(*) from car_makers as t1 join model_list as t2 on t1.id = t2.maker group by t1.id	car_1
 select t1.model from car_names as t1 join cars_data as t2 on t1.makeid = t2.id order by t2.horsepower asc limit 1	car_1
+select t1.fullname, t1.id, count(*) from car_makers as t1 join model_list as t2 on t1.id = t2.maker group by t1.id	car_1
 select t1.model from car_names as t1 join cars_data as t2 on t1.makeid = t2.id order by t2.horsepower asc limit 1	car_1
 select t1.model from car_names as t1 join cars_data as t2 on t1.makeid = t2.id where t2.weight < (select avg(weight) from cars_data)	car_1
 select t1.model from car_names as t1 join cars_data as t2 on t1.makeid = t2.id where t2.weight < (select avg(weight) from cars_data)	car_1

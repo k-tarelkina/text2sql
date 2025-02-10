@@ -11,8 +11,8 @@ select distinct country from singer where age > 20	concert_singer
 select country, count(*) from singer group by country	concert_singer
 select country, count(*) from singer group by country	concert_singer
 select song_name from singer where age > (select avg(age) from singer)	concert_singer
-select song_name from singer where age > (select avg(age) from singer)	concert_singer
 select location, name from stadium where capacity between 5000 and 10000	concert_singer
+select song_name from singer where age > (select avg(age) from singer)	concert_singer
 select location, name from stadium where capacity between 5000 and 10000	concert_singer
 select max(capacity), average from stadium	concert_singer
 select avg(capacity), max(capacity) from stadium	concert_singer
@@ -85,8 +85,8 @@ select t1.lname from student as t1 join has_pet as t2 on t1.stuid = t2.stuid joi
 select t1.lname from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pet_age = 3 and t3.pettype = 'cat'	pets_1
 select avg(age) from student where stuid not in (select stuid from has_pet)	pets_1
 select count(*) from continents	car_1
-select avg(age) from student where stuid not in (select stuid from has_pet)	pets_1
 select count(*) from continents	car_1
+select avg(age) from student where stuid not in (select stuid from has_pet)	pets_1
 select t1.contid, t1.continent, count(*) from continents as t1 join countries as t2 on t1.contid = t2.continent group by t1.contid	car_1
 select count(*) from countries	car_1
 select count(*) from countries	car_1

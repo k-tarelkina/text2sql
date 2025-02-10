@@ -38,7 +38,6 @@ select t2.name, count(*) from singer_in_concert as t1 join singer as t2 on t1.si
 select t2.name from singer_in_concert as t1 join singer as t2 on t1.singer_id = t2.singer_id join concert as t3 on t1.concert_id = t3.concert_id where t3.year = 2014	concert_singer
 select t2.name from singer_in_concert as t1 join singer as t2 on t1.singer_id = t2.singer_id join concert as t3 on t1.concert_id = t3.concert_id where t3.year = 2014	concert_singer
 select name, country from singer where song_name like '%hey%'	concert_singer
-select name, country from singer where song_name like '%hey%'	concert_singer
 select t2.name, t2.location from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id where t1.year = 2014 intersect select t2.name, t2.location from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id where t1.year = 2015	concert_singer
 select t2.name, t2.location from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id where t1.year = 2014 intersect select t2.name, t2.location from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id where t1.year = 2015	concert_singer
 select count(*) from concert where stadium_id = (select stadium_id from stadium order by capacity desc limit 1)	concert_singer
@@ -46,6 +45,7 @@ select count(*) from concert where stadium_id = (select stadium_id from stadium 
 select count(*) from pets where weight > 10	pets_1
 select count(*) from pets where weight > 10	pets_1
 select weight from pets order by pet_age limit 1	pets_1
+select name, country from singer where song_name like '%hey%'	concert_singer
 select weight from pets order by pet_age limit 1	pets_1
 select max(weight), pettype from pets group by pettype	pets_1
 select max(weight), pettype from pets group by pettype	pets_1

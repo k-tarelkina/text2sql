@@ -29,8 +29,8 @@ select year from concert group by year order by count(*) desc limit 1	concert_si
 select name from stadium where stadium_id not in (select stadium_id from concert)	concert_singer
 select name from stadium where stadium_id not in (select stadium_id from concert)	concert_singer
 select name from stadium except select t2.name from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id where t1.year = 2014	concert_singer
-select name from stadium except select t2.name from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id where t1.year = 2014	concert_singer
 select country from singer where age > 40 intersect select country from singer where age < 30	concert_singer
+select name from stadium except select t2.name from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id where t1.year = 2014	concert_singer
 select t2.concert_name, t2.theme, count(*) from singer_in_concert as t1 join concert as t2 on t1.concert_id = t2.concert_id group by t2.concert_id	concert_singer
 select t2.concert_name, t2.theme, count(*) from singer_in_concert as t1 join concert as t2 on t1.concert_id = t2.concert_id group by t2.concert_id	concert_singer
 select t2.name, count(*) from singer_in_concert as t1 join singer as t2 on t1.singer_id = t2.singer_id group by t2.singer_id	concert_singer
@@ -63,9 +63,9 @@ select major, age from student where stuid not in (select t1.stuid from student 
 select major, age from student where stuid not in (select t1.stuid from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat')	pets_1
 select stuid from student except select t1.stuid from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat'	pets_1
 select stuid from student except select t1.stuid from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat'	pets_1
+select t1.fname, t1.age from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'dog' and t1.stuid not in (select t1.stuid from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat')	pets_1
 select t1.fname, t1.age from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'dog' and t1.stuid not in (select t1.stuid from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat')	pets_1
 select pettype, weight from pets order by pet_age limit 1	pets_1
-select t1.fname, t1.age from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'dog' and t1.stuid not in (select t1.stuid from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat')	pets_1
 select pettype, weight from pets order by pet_age limit 1	pets_1
 select petid, weight from pets where pet_age > 1	pets_1
 select petid, weight from pets where pet_age > 1	pets_1
