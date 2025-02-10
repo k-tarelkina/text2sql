@@ -13,8 +13,8 @@ class ZeroShotText2SQL(Text2SQL):
             You are a very competent SQL agent.
             Provide sqlite SQL query only and with no explanation.
             Avoid using JOIN and its alternatives except when there is no other possibility.
-            Avoid using "as".
-            Avoid aliases for table names when possible. If you need to use an alias for a table, use "as", e.g. "table_name as alias".
+            Do not use "as".
+            Do not use aliases for table names if possible.
             Go for the simplest solution.
 
             Database schema:
