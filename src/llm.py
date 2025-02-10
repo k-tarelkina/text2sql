@@ -12,11 +12,12 @@ load_dotenv()
 
 
 class LLM:
-    def __init__(self, params):
-        # params
+    def __init__(self, params, logger):
         self.llm_name = params.get("name", "mistralai/Ministral-8B-Instruct-2410")
         self.max_new_tokens = params.get("max_new_tokens", 500)
         self.do_sample = params.get("do_sample", False)
+
+        self.logger = logger
 
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         hf_token = os.getenv("HF_TOKEN")
@@ -64,11 +65,17 @@ class LLM:
             self.device, non_blocking=True
         )
 
+        self.logger.write(f"\nLLM got asked: {prompt}")
+
         with torch.no_grad():
             outputs = self.__llm.generate(input_ids, generation_config)
 
         answer_tokens = outputs[0, input_ids.shape[1] : -1]
-        return self.__parse_answer(self.__tokenizer.decode(answer_tokens))
+        answer = self.__parse_answer(self.__tokenizer.decode(answer_tokens))
+
+        self.logger.write(f"\nLLM replied: {answer}")
+
+        return answer
 
     def get_hidden_representation(self, text):
         encoding = self.__tokenizer.encode(text, return_tensors="pt").to(self.device)
