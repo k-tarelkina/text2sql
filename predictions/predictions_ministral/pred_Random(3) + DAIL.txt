@@ -15,7 +15,7 @@ select song_name from singer where age > (select avg(age) from singer)
 select location, name from stadium where capacity between 5000 and 10000
 select location, name from stadium where capacity between 5000 and 10000
 select max(capacity), avg(average) from stadium
-to find the average and maximum capacities for all stadiums, you can use the following sql queries: select avg(capacity) as average_capacity, max(capacity) as max_capacity from stadium
+select to find the average and maximum capacities for all stadiums, you can use the following sql queries: select avg(capacity) as average_capacity, max(capacity) as max_capacity from stadium
 select name, capacity from stadium where average = (select max(average) from stadium)
 select name, capacity from stadium order by average desc limit 1
 select count(*) from concert where year in ('2014', '2015')
@@ -69,9 +69,9 @@ select pet_type, weight from pets where pet_age = (select min(pet_age) from pets
 select pettype, weight from pets where pet_age = (select min(pet_age) from pets)
 select petid, weight from pets where pet_age > 1
 select petid, weight from pets where pet_age > 1
-to find the average and maximum age for each type of pet, you can use the following sql queries: select pettype, avg(pet_age) as averageage, max(pet_age) as maxage from pets group by pettype; select pettype, avg(pet_age) as averageage, max(pet_age) as maxage from pets group by pettype
+select to find the average and maximum age for each type of pet, you can use the following sql queries: select pettype, avg(pet_age) as averageage, max(pet_age) as maxage from pets group by pettype; select pettype, avg(pet_age) as averageage, max(pet_age) as maxage from pets group by pettype
 select pettype, avg(weight) from pets group by pettype
-to find the average and maximum age for each pet type, you can use the following sql queries: select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype; select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
+select to find the average and maximum age for each pet type, you can use the following sql queries: select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype; select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
 select pettype, avg(weight) as average_weight from pets group by pettype
 select fname, age from student where stuid in (select stuid from has_pet)
 select distinct fname, age from student where stuid in (select stuid from has_pet)

@@ -69,7 +69,7 @@ select pettype, weight from pets where pet_age = (select min(pet_age) from pets)
 select pettype, pet_age, weight from pets where pet_age = (select min(pet_age) from pets)
 select petid, weight from pets where pet_age > 1
 select petid, weight from pets where pet_age > 1
-to find the average and maximum age for each type of pet, you can use the following sql query: select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
+select to find the average and maximum age for each type of pet, you can use the following sql query: select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
 select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
 select pettype, avg(weight) as averageweight from pets group by pettype
 select pettype, avg(weight) as average_weight from pets group by pettype

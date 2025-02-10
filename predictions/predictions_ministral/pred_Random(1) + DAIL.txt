@@ -54,7 +54,7 @@ select count(*) from pets where petid in ( select petid from has_pet where stuid
 select count(*) from pets where pettype = 'dog' and stuid in ( select stuid from student where sex = 'f' )
 select count(*) from pets where pettype = 'dog' and stuid in ( select stuid from student where sex = 'female' )
 select count(distinct pettype) from pets
-to determine the number of different types of pets, you can use the following sql query: select count(distinct pettype) from pets
+select to determine the number of different types of pets, you can use the following sql query: select count(distinct pettype) from pets
 select fname from student where stuid in (select stuid from has_pet where petid in (select petid from pets where pettype in ('cat', 'dog')))
 select fname from student where stuid in ( select stuid from has_pet where petid in ( select petid from pets where pettype in ('cat', 'dog') ) )
 select fname from student where stuid in ( select stuid from has_pet where petid in ( select petid from pets where pettype = 'cat' ) and petid in ( select petid from pets where pettype = 'dog' ) )
@@ -71,7 +71,7 @@ select petid, weight from pets where pet_age > 1
 select petid, weight from pets where pet_age > 1
 select avg(pet_age) as avg_age, max(pet_age) as max_age from pets group by pettype
 select avg(weight) from pets group by pettype
-to find the average and maximum age for each pet type, you can use the following sql queries: select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype; select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
+select to find the average and maximum age for each pet type, you can use the following sql queries: select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype; select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
 select pettype, avg(weight) as average_weight from pets group by pettype
 select fname, age from student where stuid in (select stuid from has_pet)
 select distinct fname, age from student where stuid in (select stuid from has_pet)
