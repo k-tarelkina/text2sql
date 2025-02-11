@@ -4,7 +4,7 @@ count                12                   50                   21               
 execution            0.583                0.480                0.476                0.353                0.470               
 
 =====================   TIME ACCELERATION     =====================
-time acceleration    101.508              101.221              100.285              101.610              101.135             
+time acceleration    99.974               113.968              100.656              101.036              107.740             
 
 ====================== EXACT MATCHING ACCURACY =====================
 exact match          0.667                0.220                0.381                0.118                0.290               
@@ -72,8 +72,8 @@ medium gold: select max(capacity), average from stadium
 
 eval_err_num:4
 
-'select' not found
-medium pred: to find the average and maximum capacities for all stadiums, you can use the following sql queries: select avg(capacity) as average_capacity, max(capacity) as max_capacity from stadium
+Error col: to
+medium pred: select to find the average and maximum capacities for all stadiums, you can use the following sql queries: select avg(capacity) as average_capacity, max(capacity) as max_capacity from stadium
 medium gold: select avg(capacity), max(capacity) from stadium
 
 medium pred: select name, capacity from stadium where average = (select max(average) from stadium)
@@ -261,14 +261,14 @@ medium gold: select pettype, weight from pets order by pet_age limit 1
 
 eval_err_num:26
 
-'select' not found
-medium pred: to find the average and maximum age for each type of pet, you can use the following sql queries: select pettype, avg(pet_age) as averageage, max(pet_age) as maxage from pets group by pettype; select pettype, avg(pet_age) as averageage, max(pet_age) as maxage from pets group by pettype
+Error col: to
+medium pred: select to find the average and maximum age for each type of pet, you can use the following sql queries: select pettype, avg(pet_age) as averageage, max(pet_age) as maxage from pets group by pettype; select pettype, avg(pet_age) as averageage, max(pet_age) as maxage from pets group by pettype
 medium gold: select avg(pet_age), max(pet_age), pettype from pets group by pettype
 
 eval_err_num:27
 
-'select' not found
-medium pred: to find the average and maximum age for each pet type, you can use the following sql queries: select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype; select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
+Error col: to
+medium pred: select to find the average and maximum age for each pet type, you can use the following sql queries: select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype; select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
 medium gold: select avg(pet_age), max(pet_age), pettype from pets group by pettype
 
 eval_err_num:28

@@ -4,7 +4,7 @@ count                12                   50                   21               
 execution            0.833                0.500                0.381                0.294                0.480               
 
 =====================   TIME ACCELERATION     =====================
-time acceleration    98.235               100.700              102.870              102.091              100.944             
+time acceleration    99.129               101.145              101.406              100.797              100.885             
 
 ====================== EXACT MATCHING ACCURACY =====================
 exact match          0.917                0.240                0.286                0.118                0.310               
@@ -198,8 +198,8 @@ hard gold: select count(*) from student as t1 join has_pet as t2 on t1.stuid = t
 
 eval_err_num:19
 
-'select' not found
-easy pred: to determine the number of different types of pets, you can use the following sql query: select count(distinct pettype) from pets
+Error col: to
+easy pred: select to determine the number of different types of pets, you can use the following sql query: select count(distinct pettype) from pets
 easy gold: select count(distinct pettype) from pets
 
 eval_err_num:20
@@ -270,8 +270,8 @@ medium gold: select avg(weight), pettype from pets group by pettype
 
 eval_err_num:28
 
-'select' not found
-medium pred: to find the average and maximum age for each pet type, you can use the following sql queries: select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype; select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
+Error col: to
+medium pred: select to find the average and maximum age for each pet type, you can use the following sql queries: select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype; select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
 medium gold: select avg(pet_age), max(pet_age), pettype from pets group by pettype
 
 eval_err_num:29

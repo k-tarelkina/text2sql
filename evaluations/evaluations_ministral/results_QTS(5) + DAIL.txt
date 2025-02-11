@@ -4,7 +4,7 @@ count                12                   50                   21               
 execution            0.833                0.520                0.429                0.294                0.500               
 
 =====================   TIME ACCELERATION     =====================
-time acceleration    100.167              101.262              100.396              100.643              100.871             
+time acceleration    97.733               99.795               99.222               101.688              99.649              
 
 ====================== EXACT MATCHING ACCURACY =====================
 exact match          0.833                0.260                0.333                0.118                0.320               
@@ -252,14 +252,14 @@ medium gold: select pettype, weight from pets order by pet_age limit 1
 
 eval_err_num:26
 
-'select' not found
-medium pred: to find the average and maximum age for each type of pet, you can use the following sql queries: select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
+Error col: to
+medium pred: select to find the average and maximum age for each type of pet, you can use the following sql queries: select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
 medium gold: select avg(pet_age), max(pet_age), pettype from pets group by pettype
 
 eval_err_num:27
 
-'select' not found
-medium pred: to find the average and maximum age for each pet type, you can use the following sql query: select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
+Error col: to
+medium pred: select to find the average and maximum age for each pet type, you can use the following sql query: select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
 medium gold: select avg(pet_age), max(pet_age), pettype from pets group by pettype
 
 medium pred: select avg(weight) from pets group by pettype

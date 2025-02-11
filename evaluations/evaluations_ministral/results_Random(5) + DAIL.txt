@@ -4,7 +4,7 @@ count                12                   50                   21               
 execution            0.750                0.480                0.381                0.294                0.460               
 
 =====================   TIME ACCELERATION     =====================
-time acceleration    100.507              101.975              99.045               103.818              101.570             
+time acceleration    99.330               100.976              101.020              100.396              100.661             
 
 ====================== EXACT MATCHING ACCURACY =====================
 exact match          0.750                0.240                0.286                0.118                0.290               
@@ -267,14 +267,14 @@ medium gold: select pettype, weight from pets order by pet_age limit 1
 
 eval_err_num:27
 
-'select' not found
-medium pred: to find the average and maximum age for each type of pet, you can use the following sql queries: select pettype, avg(pet_age) as average_age, max(pet_age) as max_age from pets group by pettype; select pettype, avg(pet_age) as average_age, max(pet_age) as max_age from pets group by pettype
+Error col: to
+medium pred: select to find the average and maximum age for each type of pet, you can use the following sql queries: select pettype, avg(pet_age) as average_age, max(pet_age) as max_age from pets group by pettype; select pettype, avg(pet_age) as average_age, max(pet_age) as max_age from pets group by pettype
 medium gold: select avg(pet_age), max(pet_age), pettype from pets group by pettype
 
 eval_err_num:28
 
-'select' not found
-medium pred: to find the average and maximum age for each pet type, you can use the following sql queries: select pettype, avg(pet_age) as averageage, max(pet_age) as maxage from pets group by pettype; select pettype, avg(pet_age) as averageage, max(pet_age) as maxage from pets group by pettype
+Error col: to
+medium pred: select to find the average and maximum age for each pet type, you can use the following sql queries: select pettype, avg(pet_age) as averageage, max(pet_age) as maxage from pets group by pettype; select pettype, avg(pet_age) as averageage, max(pet_age) as maxage from pets group by pettype
 medium gold: select avg(pet_age), max(pet_age), pettype from pets group by pettype
 
 eval_err_num:29

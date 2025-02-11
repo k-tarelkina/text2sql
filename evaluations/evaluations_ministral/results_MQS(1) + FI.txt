@@ -1,65 +1,65 @@
                      easy                 medium               hard                 extra                all                 
 count                12                   50                   21                   17                   100                 
 =====================   EXECUTION ACCURACY     =====================
-execution            0.750                0.320                0.476                0.353                0.410               
+execution            0.750                0.460                0.571                0.412                0.510               
 
 =====================   TIME ACCELERATION     =====================
-time acceleration    102.313              99.713               101.890              100.107              100.643             
+time acceleration    100.678              100.978              102.457              101.291              101.305             
 
 ====================== EXACT MATCHING ACCURACY =====================
-exact match          0.750                0.280                0.476                0.176                0.360               
+exact match          0.750                0.380                0.571                0.176                0.430               
 
 ---------------------PARTIAL MATCHING ACCURACY----------------------
-select               0.750                0.952                0.933                1.000                0.909               
-select(no AGG)       0.750                0.952                0.933                1.000                0.909               
-where                1.000                0.636                0.727                0.667                0.719               
-where(no OP)         1.000                0.636                0.727                0.667                0.719               
+select               0.750                0.964                0.944                1.000                0.924               
+select(no AGG)       0.750                0.964                0.944                1.000                0.924               
+where                1.000                0.625                0.714                0.571                0.683               
+where(no OP)         1.000                0.625                0.714                0.571                0.683               
 group(no Having)     0.000                0.833                1.000                0.000                0.700               
 group                0.000                0.667                1.000                0.000                0.600               
-order                0.000                1.000                1.000                0.000                0.875               
-and/or               1.000                0.960                0.950                0.765                0.929               
+order                0.000                1.000                1.000                0.000                0.900               
+and/or               1.000                0.960                1.000                0.765                0.939               
 IUEN                 0.000                0.000                0.000                0.000                0.000               
-keywords             1.000                0.789                0.800                0.571                0.778               
+keywords             1.000                0.769                0.778                0.500                0.750               
 ---------------------- PARTIAL MATCHING RECALL ----------------------
-select               0.750                0.400                0.667                0.412                0.500               
-select(no AGG)       0.750                0.400                0.667                0.412                0.500               
-where                1.000                0.500                0.615                0.235                0.479               
-where(no OP)         1.000                0.500                0.615                0.235                0.479               
+select               0.750                0.540                0.810                0.471                0.610               
+select(no AGG)       0.750                0.540                0.810                0.471                0.610               
+where                1.000                0.714                0.769                0.235                0.583               
+where(no OP)         1.000                0.714                0.769                0.235                0.583               
 group(no Having)     0.000                0.227                1.000                0.000                0.269               
 group                0.000                0.182                1.000                0.000                0.231               
-order                0.000                0.300                1.000                0.000                0.438               
-and/or               1.000                1.000                0.950                1.000                0.989               
+order                0.000                0.500                1.000                0.000                0.562               
+and/or               1.000                1.000                0.952                1.000                0.989               
 IUEN                 0.000                0.000                0.000                0.000                0.000               
-keywords             1.000                0.326                0.571                0.235                0.398               
+keywords             1.000                0.435                0.667                0.235                0.477               
 ---------------------- PARTIAL MATCHING F1 --------------------------
-select               0.750                0.563                0.778                0.583                0.645               
-select(no AGG)       0.750                0.563                0.778                0.583                0.645               
-where                1.000                0.560                0.667                0.348                0.575               
-where(no OP)         1.000                0.560                0.667                0.348                0.575               
+select               0.750                0.692                0.872                0.640                0.735               
+select(no AGG)       0.750                0.692                0.872                0.640                0.735               
+where                1.000                0.667                0.741                0.333                0.629               
+where(no OP)         1.000                0.667                0.741                0.333                0.629               
 group(no Having)     1.000                0.357                1.000                1.000                0.389               
 group                1.000                0.286                1.000                1.000                0.333               
-order                1.000                0.462                1.000                1.000                0.583               
-and/or               1.000                0.980                0.950                0.867                0.958               
+order                1.000                0.667                1.000                1.000                0.692               
+and/or               1.000                0.980                0.976                0.867                0.964               
 IUEN                 1.000                1.000                1.000                1.000                1.000               
-keywords             1.000                0.462                0.667                0.333                0.526               
+keywords             1.000                0.556                0.718                0.320                0.583               
 
 easy pred: select count(distinct singer_id) from singer
 easy gold: select count(*) from singer
 
+medium pred: select t1.song_name, t1.song_release_year from singer as t1 join singer_in_concert as t2 on t1.singer_id = t2.singer_id join concert as t3 on t2.concert_id = t3.concert_id where t1.age = (select min(age) from singer)
+medium gold: select song_name, song_release_year from singer order by age limit 1
+
 eval_err_num:1
 
-'select' not found
-medium pred: name, country, age from singer order by age desc
-medium gold: select name, country, age from singer order by age desc
-
-medium pred: select t1.song_name, t1.song_release_year from singer as t1 join singer_in_concert as t2 on t1.singer_id = t2.singer_id join concert as t3 on t2.concert_id = t3.concert_id where t1.age = (select min(age) from singer)
+'s'
+medium pred: select s.song_name, s.song_release_year from singer s join singer_in_concert sic on s.singer_id = sic.singer_id join concert c on sic.concert_id = c.concert_id where s.age = (select min(age) from singer)
 medium gold: select song_name, song_release_year from singer order by age limit 1
 
 eval_err_num:2
 
-'s'
-medium pred: s.song_name, s.song_release_year from singer s join singer_in_concert sic on s.singer_id = sic.singer_id join concert c on sic.concert_id = c.concert_id where s.age = (select min(age) from singer)
-medium gold: select song_name, song_release_year from singer order by age limit 1
+Error col: as
+medium pred: select country, count(*) as number_of_singers from singer group by country
+medium gold: select country, count(*) from singer group by country
 
 eval_err_num:3
 
@@ -67,64 +67,40 @@ Error col: as
 medium pred: select country, count(*) as number_of_singers from singer group by country
 medium gold: select country, count(*) from singer group by country
 
-eval_err_num:4
-
-Error col: as
-medium pred: select country, count(*) as number_of_singers from singer group by country
-medium gold: select country, count(*) from singer group by country
-
-eval_err_num:5
-
-'select' not found
-hard pred: song_name from singer where age > (select avg(age) from singer)
-hard gold: select song_name from singer where age > (select avg(age) from singer)
-
 hard pred: select t1.song_name from singer as t1 join singer_in_concert as t2 on t1.singer_id = t2.singer_id join concert as t3 on t2.concert_id = t3.concert_id where t1.age > (select avg(age) from singer)
 hard gold: select song_name from singer where age > (select avg(age) from singer)
 
-eval_err_num:6
-
-'select' not found
-medium pred: location, name from stadium where capacity between 5000 and 10000
-medium gold: select location, name from stadium where capacity between 5000 and 10000
-
-eval_err_num:7
+eval_err_num:4
 
 Error col: as
 medium pred: select max(capacity) as max_capacity, avg(capacity) as average_capacity from stadium
 medium gold: select max(capacity), average from stadium
 
-eval_err_num:8
+eval_err_num:5
 
 Error col: as
 medium pred: select avg(capacity) as average_capacity, max(capacity) as maximum_capacity from stadium
 medium gold: select avg(capacity), max(capacity) from stadium
 
-eval_err_num:9
-
-'select' not found
-medium pred: name, capacity from stadium order by average desc limit 1
-medium gold: select name, capacity from stadium order by average desc limit 1
-
-eval_err_num:10
+eval_err_num:6
 
 
 medium pred: select count(distinct concert_id) from concert where year in ('2014', '2015')
 medium gold: select count(*) from concert where year = 2014 or year = 2015
 
-eval_err_num:11
+eval_err_num:7
 
 
 medium pred: select count(*) from concert where year in ('2014', '2015')
 medium gold: select count(*) from concert where year = 2014 or year = 2015
 
-eval_err_num:12
+eval_err_num:8
 
 Error col: as
 medium pred: select t1.name, count(t2.concert_id) as number_of_concerts from stadium as t1 join concert as t2 on t1.stadium_id = t2.stadium_id group by t1.name
 medium gold: select t2.name, count(*) from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id group by t1.stadium_id
 
-eval_err_num:13
+eval_err_num:9
 
 Error col: as
 medium pred: select count(*) as concert_count from concert group by stadium_id
@@ -145,31 +121,28 @@ hard gold: select country from singer where age > 40 intersect select country fr
 hard pred: select name from stadium where stadium_id not in ( select stadium_id from concert where year = '2014' )
 hard gold: select name from stadium except select t2.name from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id where t1.year = 2014
 
-eval_err_num:14
-
-'select' not found
-hard pred: name from stadium where stadium_id not in (select stadium_id from concert where year = '2014')
+hard pred: select name from stadium where stadium_id not in (select stadium_id from concert where year = '2014')
 hard gold: select name from stadium except select t2.name from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id where t1.year = 2014
 
-eval_err_num:15
+eval_err_num:10
 
 Error col: as
 medium pred: select t1.concert_name, t1.theme, count(t2.singer_id) as number_of_singers from concert as t1 join singer_in_concert as t2 on t1.concert_id = t2.concert_id group by t1.concert_name, t1.theme
 medium gold: select t2.concert_name, t2.theme, count(*) from singer_in_concert as t1 join concert as t2 on t1.concert_id = t2.concert_id group by t2.concert_id
 
-eval_err_num:16
+eval_err_num:11
 
 Error col: as
 medium pred: select concert_name, theme, count(singer_id) as number_of_singers from concert join singer_in_concert on concert.concert_id = singer_in_concert.concert_id group by concert_name, theme
 medium gold: select t2.concert_name, t2.theme, count(*) from singer_in_concert as t1 join concert as t2 on t1.concert_id = t2.concert_id group by t2.concert_id
 
-eval_err_num:17
+eval_err_num:12
 
 Error col: as
 medium pred: select name, count(concert_id) as number_of_concerts from singer join singer_in_concert on singer.singer_id = singer_in_concert.singer_id group by name
 medium gold: select t2.name, count(*) from singer_in_concert as t1 join singer as t2 on t1.singer_id = t2.singer_id group by t2.singer_id
 
-eval_err_num:18
+eval_err_num:13
 
 Error col: as
 medium pred: select name, count(concert_id) as number_of_concerts from singer join singer_in_concert on singer.singer_id = singer_in_concert.singer_id group by name
@@ -181,19 +154,19 @@ hard gold: select t2.name from singer_in_concert as t1 join singer as t2 on t1.s
 medium pred: select t1.name, t1.country from singer as t1 join singer_in_concert as t2 on t1.singer_id = t2.singer_id join concert as t3 on t2.concert_id = t3.concert_id where t1.song_name like '%hey%'
 medium gold: select name, country from singer where song_name like '%hey%'
 
-eval_err_num:19
+eval_err_num:14
 
 
 extra pred: select name, location from stadium where stadium_id in ( select stadium_id from concert where year in ('2014', '2015') )
 extra gold: select t2.name, t2.location from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id where t1.year = 2014 intersect select t2.name, t2.location from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id where t1.year = 2015
 
-eval_err_num:20
+eval_err_num:15
 
 
 extra pred: select name, location from stadium where stadium_id in ( select stadium_id from concert where year in ('2014', '2015') group by stadium_id having count(*) = 2 )
 extra gold: select t2.name, t2.location from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id where t1.year = 2014 intersect select t2.name, t2.location from concert as t1 join stadium as t2 on t1.stadium_id = t2.stadium_id where t1.year = 2015
 
-eval_err_num:21
+eval_err_num:16
 
 Error col: as
 hard pred: select count(*) as concert_count from concert where stadium_id = ( select stadium_id from stadium order by capacity desc limit 1 )
@@ -202,7 +175,7 @@ hard gold: select count(*) from concert where stadium_id = (select stadium_id fr
 medium pred: select weight from pets where pettype = 'dog' order by pet_age asc limit 1
 medium gold: select weight from pets order by pet_age limit 1
 
-eval_err_num:22
+eval_err_num:17
 
 Error col: pet_type
 medium pred: select weight from pets where pet_age = (select min(pet_age) from pets where pet_type = 'dog')
@@ -211,58 +184,55 @@ medium gold: select weight from pets order by pet_age limit 1
 medium pred: select count(*) from pets where petid in ( select petid from has_pet where stuid in ( select stuid from student where age > 20 ) )
 medium gold: select count(*) from student as t1 join has_pet as t2 on t1.stuid = t2.stuid where t1.age > 20
 
-eval_err_num:23
+eval_err_num:18
 
-'select' not found
-extra pred: fname from student where stuid in (select stuid from has_pet where petid in (select petid from pets where pettype in ('cat', 'dog')))
+
+extra pred: select fname from student where stuid in (select stuid from has_pet where petid in (select petid from pets where pettype in ('cat', 'dog')))
 extra gold: select distinct t1.fname from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat' or t3.pettype = 'dog'
 
-eval_err_num:24
+eval_err_num:19
 
 
 extra pred: select fname from student where stuid in ( select stuid from has_pet where petid in ( select petid from pets where pettype in ('cat', 'dog') ) ) order by fname
 extra gold: select distinct t1.fname from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat' or t3.pettype = 'dog'
 
-eval_err_num:25
-
-'select' not found
-extra pred: fname from student where stuid in ( select stuid from has_pet where petid in ( select petid from pets where pettype = 'cat' ) and petid in ( select petid from pets where pettype = 'dog' ) )
+extra pred: select fname from student where stuid in ( select stuid from has_pet where petid in ( select petid from pets where pettype = 'cat' ) and petid in ( select petid from pets where pettype = 'dog' ) )
 extra gold: select t1.fname from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat' intersect select t1.fname from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'dog'
 
 extra pred: select fname from student where stuid in ( select stuid from has_pet where petid in ( select petid from pets where pettype = 'cat' ) and petid in ( select petid from pets where pettype = 'dog' ) )
 extra gold: select t1.fname from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat' intersect select t1.fname from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'dog'
 
-eval_err_num:26
+eval_err_num:20
 
 'left'
 extra pred: select t1.major, t1.age from student as t1 left join has_pet as t2 on t1.stuid = t2.stuid where t2.petid is null and t2.pettype = 'cat'
 extra gold: select major, age from student where stuid not in (select t1.stuid from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat')
 
-eval_err_num:27
+eval_err_num:21
 
 Error col: pettype
 extra pred: select major, age from student where stuid not in (select stuid from has_pet where pettype = 'cat')
 extra gold: select major, age from student where stuid not in (select t1.stuid from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat')
 
-eval_err_num:28
+eval_err_num:22
 
 'left'
 hard pred: select s.stuid from student as s left join has_pet as hp on s.stuid = hp.stuid left join pets as p on hp.petid = p.petid where p.pettype = 'cat' and p.petid is null
 hard gold: select stuid from student except select t1.stuid from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat'
 
-eval_err_num:29
+eval_err_num:23
 
-'select' not found
-hard pred: stuid from student where stuid not in (select stuid from has_pet where pettype = 'cat')
+Error col: pettype
+hard pred: select stuid from student where stuid not in (select stuid from has_pet where pettype = 'cat')
 hard gold: select stuid from student except select t1.stuid from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat'
 
-eval_err_num:30
+eval_err_num:24
 
-'select' not found
-extra pred: fname, age from student join has_pet on student.stuid = has_pet.stuid join pets on has_pet.petid = pets.petid where pets.pettype = 'dog' and not exists ( select 1 from has_pet hp2 join pets p2 on hp2.petid = p2.petid where hp2.stuid = student.stuid and p2.pettype = 'cat' )
+Error col: not
+extra pred: select fname, age from student join has_pet on student.stuid = has_pet.stuid join pets on has_pet.petid = pets.petid where pets.pettype = 'dog' and not exists ( select 1 from has_pet hp2 join pets p2 on hp2.petid = p2.petid where hp2.stuid = student.stuid and p2.pettype = 'cat' )
 extra gold: select t1.fname, t1.age from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'dog' and t1.stuid not in (select t1.stuid from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pettype = 'cat')
 
-eval_err_num:31
+eval_err_num:25
 
 Error col: not
 extra pred: select t1.fname from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t2.petid = t3.petid where t3.pettype = 'dog' and not exists ( select 1 from has_pet as t4 join pets as t5 on t4.petid = t5.petid where t5.pettype = 'cat' and t4.stuid = t1.stuid )
@@ -271,49 +241,34 @@ extra gold: select t1.fname, t1.age from student as t1 join has_pet as t2 on t1.
 medium pred: select t1.pettype, t1.weight from pets as t1 join has_pet as t2 on t1.petid = t2.petid join student as t3 on t2.stuid = t3.stuid where t3.age = (select min(age) from student)
 medium gold: select pettype, weight from pets order by pet_age limit 1
 
-eval_err_num:32
+eval_err_num:26
 
 'has_pet.weight'
 medium pred: select t1.pettype, t2.weight from pets as t1 join has_pet as t2 on t1.petid = t2.petid order by t1.pet_age asc limit 1
 medium gold: select pettype, weight from pets order by pet_age limit 1
 
-eval_err_num:33
-
-'select' not found
-medium pred: petid, weight from pets where pet_age > 1
-medium gold: select petid, weight from pets where pet_age > 1
-
-eval_err_num:34
-
-'select' not found
-medium pred: petid, weight from pets where pet_age > 1
-medium gold: select petid, weight from pets where pet_age > 1
-
-eval_err_num:35
+eval_err_num:27
 
 Error col: as
 medium pred: select pettype, avg(pet_age) as avgage, max(pet_age) as maxage from pets group by pettype
 medium gold: select avg(pet_age), max(pet_age), pettype from pets group by pettype
 
-eval_err_num:36
+eval_err_num:28
 
-'select' not found
-medium pred: pettype, avg(pet_age) as averageage, max(pet_age) as maxage from pets group by pettype
+Error col: as
+medium pred: select pettype, avg(pet_age) as averageage, max(pet_age) as maxage from pets group by pettype
 medium gold: select avg(pet_age), max(pet_age), pettype from pets group by pettype
 
-eval_err_num:37
-
-'select' not found
-medium pred: petid from has_pet where stuid in ( select stuid from student where lname = 'smith' )
+medium pred: select petid from has_pet where stuid in ( select stuid from student where lname = 'smith' )
 medium gold: select t2.petid from student as t1 join has_pet as t2 on t1.stuid = t2.stuid where t1.lname = 'smith'
 
-eval_err_num:38
+eval_err_num:29
 
 Error col: as
 medium pred: select t1.stuid, count(t2.petid) as pet_count from student as t1 join has_pet as t2 on t1.stuid = t2.stuid group by t1.stuid
 medium gold: select count(*), t1.stuid from student as t1 join has_pet as t2 on t1.stuid = t2.stuid group by t1.stuid
 
-eval_err_num:39
+eval_err_num:30
 
 Error col: as
 medium pred: select count(stuid) as pet_count, stuid from has_pet group by stuid
@@ -322,22 +277,13 @@ medium gold: select count(*), t1.stuid from student as t1 join has_pet as t2 on 
 medium pred: select s.fname, s.sex from student as s join has_pet as hp on s.stuid = hp.stuid group by s.stuid having count(hp.petid) > 1
 medium gold: select t1.fname, t1.sex from student as t1 join has_pet as t2 on t1.stuid = t2.stuid group by t1.stuid having count(*) > 1
 
-eval_err_num:40
-
-'select' not found
-medium pred: fname, sex from student where stuid in ( select stuid from has_pet group by stuid having count(petid) > 1 )
+medium pred: select fname, sex from student where stuid in ( select stuid from has_pet group by stuid having count(petid) > 1 )
 medium gold: select t1.fname, t1.sex from student as t1 join has_pet as t2 on t1.stuid = t2.stuid group by t1.stuid having count(*) > 1
-
-eval_err_num:41
-
-'select' not found
-hard pred: lname from student join has_pet on student.stuid = has_pet.stuid join pets on has_pet.petid = pets.petid where pettype = 'cat' and pet_age = 3
-hard gold: select t1.lname from student as t1 join has_pet as t2 on t1.stuid = t2.stuid join pets as t3 on t3.petid = t2.petid where t3.pet_age = 3 and t3.pettype = 'cat'
 
 medium pred: select t1.contid, t1.continent, count(t2.countryid) from continents as t1 join countries as t2 on t1.contid = t2.continent group by t1.contid, t1.continent
 medium gold: select t1.contid, t1.continent, count(*) from continents as t1 join countries as t2 on t1.contid = t2.continent group by t1.contid
 
-eval_err_num:42
+eval_err_num:31
 
 Error col: as
 medium pred: select t1.contid, t1.continent, count(t2.countryid) as numberofcountries from continents as t1 join countries as t2 on t1.contid = t2.continent group by t1.contid, t1.continent
@@ -349,13 +295,13 @@ easy gold: select count(*) from countries
 easy pred: select count(distinct countryname) from countries
 easy gold: select count(*) from countries
 
-eval_err_num:43
+eval_err_num:32
 
 Error col: as
 medium pred: select t1.maker, t1.fullname, count(t2.modelid) as numberofmodels from car_makers as t1 join model_list as t2 on t1.id = t2.maker group by t1.maker, t1.fullname
 medium gold: select t1.fullname, t1.id, count(*) from car_makers as t1 join model_list as t2 on t1.id = t2.maker group by t1.id
 
-eval_err_num:44
+eval_err_num:33
 
 'cm'
 medium pred: select c.fullname, cm.id, count(ml.modelid) as modelsproduced from car_makers cm join model_list ml on cm.id = ml.maker group by cm.fullname, cm.id
@@ -364,7 +310,7 @@ medium gold: select t1.fullname, t1.id, count(*) from car_makers as t1 join mode
 extra pred: select t1.model from car_names as t1 join cars_data as t2 on t1.makeid = t2.id group by t1.model having avg(t2.weight) < (select avg(weight) from cars_data)
 extra gold: select t1.model from car_names as t1 join cars_data as t2 on t1.makeid = t2.id where t2.weight < (select avg(weight) from cars_data)
 
-eval_err_num:45
+eval_err_num:34
 
 'car_names.maker'
 extra pred: select distinct t1.maker from car_names as t1 join cars_data as t2 on t1.makeid = t2.id where t2.year = 1970
