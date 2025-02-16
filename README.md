@@ -12,10 +12,10 @@ HF_TOKEN={your access token}
 Install necessary dependencies:
 
 ```bash
-pip install transformers bitsandbytes accelerate datasets outlines scikit-learn python-dotenv nltk gdown
+pip install transformers bitsandbytes accelerate datasets outlines scikit-learn python-dotenv nltk gdown peft nltk
 ```
 
-## Evaluation
+## Prediction
 
 To run the evaluation script, you first need to generate files with predictions.
 
@@ -30,6 +30,8 @@ python main.py predict --params_path params_llama.yaml
 ```
 
 The files will be generated in the `results` folder.
+
+## Evaluation
 
 The evaluation script is based on that from https://github.com/taoyds/spider/tree/master.
 
@@ -46,4 +48,15 @@ python main.py evaluate
 # or
 
 python main.py evaluate --params_path params_llama.yaml
+```
+
+## Fine-tuning
+
+To fine-tune LLM with QLoRA, add `fine_tune` block to your `params.yaml` and run:
+```bash
+python main.py fine-tune
+
+# or
+
+python main.py fine-tune --params_path params.yaml
 ```
