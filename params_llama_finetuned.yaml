@@ -1,0 +1,21 @@
+prediction:
+  llm:
+    name: "meta-llama/Meta-Llama-3.1-8B-Instruct"
+    checkpoint: "./qlora_llama5B_spider/checkpoint-1000"
+    max_new_tokens: 500
+    do_sample: False
+  validation_dataset_limit_rows: 100
+  train_dataset_limit_rows: 100
+  output_folder: predictions/"predictions_lora-llama"
+  parallelisation: True
+
+evaluation:
+  predictions_folder: "predictions/"predictions_lora-llama"
+  output_folder: "evaluations/evaluations_lora-llama"
+  etype: "all"
+  db_dir: "database"
+  table: "src/data/tables.json"
+
+fine_tune:
+  llm: "meta-llama/Meta-Llama-3.1-8B-Instruct"
+  checkpoint_dir: "./qlora_llama5B_spider/checkpoint-1000"
