@@ -14,6 +14,7 @@ load_dotenv()
 class LLM:
     def __init__(self, params, logger):
         self.llm_name = params.get("name", "mistralai/Ministral-8B-Instruct-2410")
+        self.checkpoint = params.get("name", "checkpoint")
         self.max_new_tokens = params.get("max_new_tokens", 500)
         self.do_sample = params.get("do_sample", False)
 
@@ -36,7 +37,7 @@ class LLM:
         device_map = "auto" if self.device == "cuda" else "cpu"
 
         self.__llm = AutoModelForCausalLM.from_pretrained(
-            self.llm_name,
+            self.llm_name if self.checkpoint is None else self.checkpoint,
             quantization_config=quantization_config,
             device_map=device_map,
             torch_dtype=torch.bfloat16,
