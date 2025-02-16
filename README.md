@@ -1,5 +1,34 @@
 # text2sql
 
+# Project description
+## Problem statement
+The goal of the project is to develop an LLM-based method to translate natural language questions to executable SQL queries.
+The accuracy of the method is evaluated against the validation subset of the Spider dataset by comparison with the expected SQL query, the execution results and execution time.
+
+## Implementation
+<img src="./plots/llm_prompt.drawio.png">
+
+We implemented the following structures of prompts of zero-shot (no examples) and few-shot (several examples) learning:
+- Example organizations: Full Text, SQL only and DAIL-SQL. 
+- Example selection strategies: Random, Question Similarity (QTS), Masked Question Similarity (MQS), and Query Similarity Selections (QSS)
+
+The evaluation was done using exact-set-match accuracy (EM), execution accuracy (EX) and execution time.
+
+Besides that, we added LoRA fine-tuning on LLM to improve accuracy.
+
+## Evaluations
+We have run experiments on [Ministral-8B-Instruct-2410](https://huggingface.co/mistralai/Ministral-8B-Instruct-2410) and [Meta-Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct).
+Results are present on the following plot:
+
+<img src="./plots/all_metrics.png">
+
+Fine-tuning with LoRA of [Meta-Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct) improved the performance over the majority of the prompt-organisations. On the following plot we display comparison of executing accuracy on basicLlama-3.1-8B and its fine-tuned version with LoRA.
+
+<img src="./plots/lora_comparison.png">
+
+
+# How to run code?
+
 ## Installation & Setup
 
 To access Hugging Face models, create a `.env` file in the root folder of this project and paste your Hugging Face access token there.
